@@ -1,141 +1,141 @@
-<a href="https://app.vercel.pub">
-  <img alt="Platforms Starter Kit" src="/public/thumbnail.png">
-  <h1 align="center">Platforms Starter Kit</h1>
-</a>
+# MBTQ AI - Sign Language AI Platform
 
-<p align="center">
-  The <em>all-in-one</em> starter kit <br/>
-  for building multi-tenant applications.
-</p>
+🌐 **Live at: [ai.mbtq.dev](https://ai.mbtq.dev)**
 
-<p align="center">
-  <a href="#introduction"><strong>Introduction</strong></a> ·
-  <a href="https://app.vercel.pub/"><strong>Demo</strong></a> ·
-  <a href="#deploy-your-own"><strong>Deploy Your Own</strong></a> ·
-  <a href="https://vercel.com/guides/nextjs-multi-tenant-application"><strong>Guide</strong></a> ·
-  <a href="https://steven.vercel.pub/kitchen-sink"><strong>Kitchen Sink</strong></a> ·
-  <a href="#contributing"><strong>Contributing</strong></a>
-</p>
-<br/>
+A revolutionary AI-powered platform bridging communication gaps through sign language interpretation with blockchain-based incentives and AWS GenASL integration.
 
-## Introduction
+## 🚀 Features
 
-The [Platforms Starter Kit](https://app.vercel.pub/) is a full-stack Next.js app with multi-tenancy and custom domain support. Built with [Next.js App Router](https://nextjs.org/docs/app), [Vercel Postgres](https://vercel.com/storage/postgres) and the [Vercel Domains API](https://vercel.com/docs/rest-api/endpoints#domains).
+- **Real-time Sign Language Interpretation**: AI model translates sign language gestures into text and speech
+- **AWS GenASL Integration**: Leverages Amazon's Generative AI-powered ASL avatars for expressive animations
+- **Blockchain Token Rewards**: "Sign-to-Earn" model incentivizing user contributions
+- **Multi-industry Datasets**: Pre-trained models for finance, healthcare, real estate, and more
+- **Full-Stack Authentication**: NextAuth.js with OAuth providers and secure session management
+- **Enterprise APIs**: Comprehensive APIs for business integrations
 
-Here's a quick 30-second demo:
+## 🛠️ Tech Stack
 
-https://github.com/vercel/platforms/assets/28986134/bd370257-0c27-4cf5-8a56-28589f36f0ef
+- **Frontend**: Next.js 14, React, TypeScript, Tailwind CSS
+- **Authentication**: NextAuth.js with Google, GitHub OAuth
+- **Database**: Neon PostgreSQL with custom adapter
+- **AI/ML**: Groq AI, Hugging Face Spaces, Computer Vision
+- **Storage**: Vercel Blob for file uploads
+- **AWS Services**: 
+  - Amazon Transcribe (Speech-to-text)
+  - Amazon SageMaker (ML model deployment)
+  - Amazon Bedrock (Foundation models)
+  - AWS Step Functions (Workflow orchestration)
 
-## Features
+## 🌐 Live Platform
 
-1. **Multi-tenancy:** Programmatically assign unlimited custom domains, subdomains, and SSL certificates to your users using the [Vercel Domains API](https://vercel.com/docs/rest-api/endpoints#domains)
-2. **Performance**: Fast & beautiful blog posts cached via [Vercel's Edge Network](https://vercel.com/docs/concepts/edge-network/overview), with the ability to invalidate the cache on-demand (when users make changes) using [Incremental Static Regeneration](https://vercel.com/docs/concepts/next.js/incremental-static-regeneration) + Next.js' `revalidateTag` API
-3. **AI Editor**: AI-powered Markdown editor for a Notion-style writing experience powered by [Novel](https://novel.sh/)
-4. **Image Uploads**: Drag & drop / copy & paste image uploads, backed by [Vercel Blob](https://vercel.com/storage/blob)
-5. **Custom styles**: Custom fonts, 404 pages, favicons, sitemaps for each site via the [Next.js file-based Metadata API](https://nextjs.org/docs/app/api-reference/file-conventions/metadata)
-6. **Dynamic OG Cards**: Each blog post comes with a dynamic OG image powered by [@vercel/og](https://vercel.com/docs/concepts/functions/edge-functions/og-image-generation)
-7. **Dark Mode**: For a better user experience at night
-8. **Multi-tenant Preview URLs**: Preview changes to your client sites using [Vercel Preview URLs](https://vercel.com/docs/deployments/generated-urls). [Learn more](https://vercel.com/guides/nextjs-multi-tenant-application#3.-multi-tenant-preview-urls).
+Visit **[ai.mbtq.dev](https://ai.mbtq.dev)** to:
+- Try the live AI chatbot
+- Upload sign language videos
+- Earn tokens for contributions
+- Explore investment opportunities
 
-<picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://images.ctfassets.net/e5382hct74si/k7XpXIE0rDsHCAYvkKhff/ff44c07588068d8fefa334cd6a318c8a/CleanShot_2023-07-05_at_08.39.02.png">
-    <source media="(prefers-color-scheme: light)" srcset="https://images.ctfassets.net/e5382hct74si/7tiAitb8kdgUGktycr540c/d33f2834f9356bce25e0721c4ebe4f9a/CleanShot_2023-07-05_at_08.39.10.png">
-    <img alt="Demo" src="https://images.ctfassets.net/e5382hct74si/7tiAitb8kdgUGktycr540c/d33f2834f9356bce25e0721c4ebe4f9a/CleanShot_2023-07-05_at_08.39.10.png">
-</picture>
+## 💰 Investment Opportunity
 
-## Deploy Your Own
+**Seeking $45,000 in funding** for:
+- AI model refinement: $15,000
+- Blockchain integration: $12,000
+- API development: $8,000
+- Marketing: $7,000
+- Legal/compliance: $3,000
 
-Deploy your own version of this starter kit with Vercel.
+**Contact**: invest@signlanguageai.com | (817) 886-2798
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?demo-title=Platforms+Starter+Kit&demo-description=A+template+for+site+builders+and+low-code+tools.&demo-url=https%3A%2F%2Fdemo.vercel.pub%2F&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2F40JwjdHlPr0Z575MPYbxUA%2Fd5903afc68cb34569a3886293414c37c%2FOG_Image.png&project-name=Platforms+Starter+Kit&repository-name=platforms-starter-kit&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fplatforms&from=templates&env=NEXT_PUBLIC_ROOT_DOMAIN%2CNEXTAUTH_SECRET%2CAUTH_GITHUB_ID%2CAUTH_GITHUB_SECRET%2CAUTH_BEARER_TOKEN%2CPROJECT_ID_VERCEL%2CTEAM_ID_VERCEL%2COPENAI_API_KEY&envDescription=These%20environment%20variables%20are%20required%20to%20run%20this%20application.%20The%20link%20below%20describes%20how%20to%20get%20them.&envLink=https%3A%2F%2Fvercel.com%2Fguides%2Fnextjs-multi-tenant-application%233.-add-environment-variables&stores=%5B%7B%22type%22%3A%22postgres%22%7D%5D)
+## 🚀 Quick Start
 
-You can also [read the guide](https://vercel.com/guides/nextjs-multi-tenant-application) to learn how to develop your own version of this template.
+1. **Clone the repository**
+\`\`\`bash
+git clone https://github.com/mbtq/ai-platform.git
+cd ai-platform
+\`\`\`
 
-## What is a multi-tenant application?
+2. **Install dependencies**
+\`\`\`bash
+npm install
+\`\`\`
 
-Multi-tenant applications serve multiple customers across different subdomains/custom domains with a single unified codebase.
+3. **Set up environment variables**
+\`\`\`bash
+cp .env.example .env.local
+\`\`\`
 
-For example, our demo is a multi-tenant application:
+4. **Configure your environment**
+- Set up Neon PostgreSQL database
+- Configure OAuth providers (Google, GitHub)
+- Add Groq API key
+- Set up Vercel Blob storage
 
-- Subdomain: [demo.vercel.pub](http://demo.vercel.pub)
-- Custom domain: [platformize.co](http://platformize.co) (maps to [demo.vercel.pub](http://demo.vercel.pub))
-- Build your own: [app.vercel.pub](http://app.vercel.pub)
+5. **Run the development server**
+\`\`\`bash
+npm run dev
+\`\`\`
 
-Another example is [Hashnode](https://vercel.com/customers/hashnode), a popular blogging platform. Each writer has their own unique `.hashnode.dev` subdomain for their blog:
+6. **Visit** [http://localhost:3000](http://localhost:3000)
 
-- [eda.hashnode.dev](https://eda.hashnode.dev/)
-- [katycodesstuff.hashnode.dev](https://katycodesstuff.hashnode.dev/)
-- [akoskm.hashnode.dev](https://akoskm.hashnode.dev/)
+## 📊 Database Setup
 
-Users can also map custom domains to their `.hashnode.dev` subdomain:
+Run the complete schema in your Neon dashboard:
+\`\`\`sql
+-- See database/complete-schema.sql for full setup
+\`\`\`
 
-- [akoskm.com](https://akoskm.com/) → [akoskm.hashnode.dev](https://akoskm.hashnode.dev/)
+## 🔐 Authentication
 
-With the Platforms Starter Kit, you can offer unlimited custom domains at no extra cost to your customers as a premium feature, without having to worry about custom nameservers or configuring SSL certificates.
+- **NextAuth.js** with custom Neon adapter
+- **OAuth providers**: Google, GitHub
+- **Secure sessions** with JWT
+- **Protected routes** with middleware
+- **Role-based access** control
 
-## Examples of platforms
+## 🎯 Key Features
 
-Vercel customers like [Hashnode](https://vercel.com/customers/hashnode), [Super](https://super.so), and [Cal.com](https://cal.com) are building scalable platforms on top of Vercel and Next.js. There are multiple types of platforms you can build with this starter kit:
+### Sign-to-Earn Economy
+- Welcome bonus: 25 tokens
+- Chat interactions: 1 token per message
+- Content uploads: 5 tokens per upload
+- Achievement system with bonus rewards
 
-### 1. Content creation platforms
+### AI Capabilities
+- Real-time sign language interpretation
+- Multi-modal input (video, image, text)
+- AWS GenASL avatar generation
+- Industry-specific datasets
 
-These are content-heavy platforms (blogs) with simple, standardized page layouts and route structure.
+### Enterprise Ready
+- Scalable APIs
+- Multi-tenant architecture
+- Analytics and monitoring
+- GDPR compliance
 
-> “With Vercel, we spend less time managing our infrastructure and more time delivering value to our users.” — Sandeep Panda, Co-founder, Hashnode
+## 📈 Roadmap
 
-1. [Hashnode](https://hashnode.com)
-2. [Mintlify](https://mintlify.com/)
-3. [Read.cv](https://read.cv/)
+- [ ] Mobile app (React Native)
+- [ ] Blockchain token integration
+- [ ] Additional sign languages (BSL, LSF)
+- [ ] Enterprise partnerships
+- [ ] API marketplace
 
-### 2. Website & e-commerce store builders
+## 🤝 Contributing
 
-No-code site builders with customizable pages.
+We welcome contributions! See [CONTRIBUTING.md](./docs/CONTRIBUTING.md) for guidelines.
 
-By using Next.js and Vercel, [Super](https://super.so/) has fast, globally distributed websites with a no-code editor (Notion). Their customers get all the benefits of Next.js (like [Image Optimization](https://nextjs.org/docs/basic-features/image-optimization)) without touching any code.
+## 📄 License
 
-1. [Super.so](https://super.so)
-2. [Typedream](https://typedream.com)
-3. [Makeswift](https://www.makeswift.com/)
+MIT License - see [LICENSE](LICENSE) for details.
 
-### 3. B2B2C platforms
+## 📞 Contact
 
-Multi-tenant authentication, login, and access controls.
-
-With Vercel and Next.js, platforms like [Instatus](https://instatus.com) are able to create status pages that are _10x faster_ than competitors.
-
-1. [Instatus](https://instatus.com/)
-2. [Cal.com](https://cal.com/)
-3. [Dub](https://dub.co/)
-
-## Built on open source
-
-This working demo site was built using the Platforms Starter Kit and:
-
-- [Next.js](https://nextjs.org/) as the React framework
-- [Tailwind](https://tailwindcss.com/) for CSS styling
-- [Drizzle](https://orm.drizzle.team/) as the ORM for database access
-- [Novel](https://novel.sh/) for the WYSIWYG editor
-- [Vercel Postgres](https://vercel.com/storage/postgres) for the database
-- [Vercel Blob](https://vercel.com/storage/blob) for image uploads
-- [NextAuth.js](https://next-auth.js.org/) for authentication
-- [Tremor](https://tremor.so/) for charts
-- [Vercel](http://vercel.com/) for deployment
-
-## Contributing
-
-- [Start a discussion](https://github.com/vercel/platforms/discussions) with a question, piece of feedback, or idea you want to share with the team.
-- [Open an issue](https://github.com/vercel/platforms/issues) if you believe you've encountered a bug with the starter kit.
-
-## Author
-
-- Steven Tey ([@steventey](https://twitter.com/steventey))
-
-## License
-
-The MIT License.
+- **Website**: [ai.mbtq.dev](https://ai.mbtq.dev)
+- **Email**: invest@signlanguageai.com
+- **Phone**: (817) 886-2798
+- **Investment**: [Investment Perspective](https://ai.mbtq.dev/investment-perspective)
 
 ---
 
-<a aria-label="Vercel logo" href="https://vercel.com">
-  <img src="https://badgen.net/badge/icon/Made%20by%20Vercel?icon=zeit&label&color=black&labelColor=black">
-</a>
+**Made with ❤️ by MBTQ AI - Advancing AI for Accessibility**
+
+🌐 **Live Platform**: [ai.mbtq.dev](https://ai.mbtq.dev)

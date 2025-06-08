@@ -1,26 +1,52 @@
-import { put } from "@vercel/blob";
-import { nanoid } from "nanoid";
-import { NextResponse } from "next/server";
+import { put } from "@vercel/blob"
+import { type NextRequest, NextResponse } from "next/server"
+import { awardTokens, saveUpload } from "@/lib/db"
 
-export const runtime = "edge";
+export async function POST(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url)
+    const filename = searchParams.get("filename")
+    const userId = searchParams.get("userId")
 
-export async function POST(req: Request) {
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
-    return new Response(
-      "Missing BLOB_READ_WRITE_TOKEN. Don't forget to add that to your .env file.",
-      {
-        status: 401,
-      },
-    );
+    if (!filename) {
+      return NextResponse.json({ error: "Filename is required" }, { status: 400 })
+    }
+
+    if (!userId) {
+      return NextResponse.json({ error: "User ID is required" }, { status: 400 })
+    }
+
+    const file = request.body
+    if (!file) {
+      return NextResponse.json({ error: "File is required" }, { status: 400 })
+    }
+
+    // Upload to Vercel Blob
+    const blob = await put(filename, file, {
+      access: "public",
+    })
+
+    // Determine file type
+    const uploadType =
+      filename.includes(".mp4") || filename.includes(".mov") || filename.includes(".webm") ? "video" : "image"
+
+    // Save file metadata to Neon
+    const uploadId = await saveUpload(userId, filename, blob.url, blob.size || 0, uploadType)
+
+    if (!uploadId) {
+      return NextResponse.json({ error: "Database error" }, { status: 500 })
+    }
+
+    // Award tokens for contributing content
+    await awardTokens(userId, "content_upload", 5)
+
+    return NextResponse.json({
+      url: blob.url,
+      uploadId: uploadId,
+      message: "File uploaded successfully! You earned 5 tokens.",
+    })
+  } catch (error) {
+    console.error("Upload error:", error)
+    return NextResponse.json({ error: "Upload failed" }, { status: 500 })
   }
-
-  const file = req.body || "";
-  const contentType = req.headers.get("content-type") || "text/plain";
-  const filename = `${nanoid()}.${contentType.split("/")[1]}`;
-  const blob = await put(filename, file, {
-    contentType,
-    access: "public",
-  });
-
-  return NextResponse.json(blob);
 }

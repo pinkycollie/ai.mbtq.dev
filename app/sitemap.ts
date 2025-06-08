@@ -1,24 +1,56 @@
-import { headers } from "next/headers";
-import { getPostsForSite } from "@/lib/fetchers";
+import type { MetadataRoute } from "next"
 
-export default async function Sitemap() {
-  const headersList = headers();
-  const domain =
-    headersList
-      .get("host")
-      ?.replace(".localhost:3000", `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) ??
-    "vercel.pub";
-
-  const posts = await getPostsForSite(domain);
+export default function sitemap(): MetadataRoute.Sitemap {
+  const baseUrl = "https://ai.mbtq.dev"
 
   return [
     {
-      url: `https://${domain}`,
+      url: baseUrl,
       lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 1,
     },
-    ...posts.map(({ slug }) => ({
-      url: `https://${domain}/${slug}`,
+    {
+      url: `${baseUrl}/chat`,
       lastModified: new Date(),
-    })),
-  ];
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/projects`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/projects/sign-language-ai`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/investment-perspective`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/about`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/auth/signin`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/auth/signup`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
+  ]
 }
