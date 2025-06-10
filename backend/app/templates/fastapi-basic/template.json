@@ -1,0 +1,7 @@
+{
+  "name": "FastAPI Basic",
+  "description": "A basic FastAPI project template",
+  "version": "1.0.0",
+  "author": "Super Developer",
+  "tags": ["fastapi", "python", "backend"]
+}

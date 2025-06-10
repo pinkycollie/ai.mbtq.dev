@@ -1,58 +1,60 @@
-import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Progress } from "@/components/ui/progress"
+import { Button } from "@/components/ui/button"
 
 interface ProjectCardProps {
   title: string
   description: string
-  href: string
-  imageUrl?: string
-  genAslEnabled?: boolean
-  genAslEndpoint?: string
+  type: string
+  lastUpdated: string
+  progress: number
+  compatibility: string[]
 }
 
-export function ProjectCard({
-  title,
-  description,
-  href,
-  imageUrl,
-  genAslEnabled = false,
-  genAslEndpoint,
-}: ProjectCardProps) {
+export function ProjectCard({ title, description, type, lastUpdated, progress, compatibility }: ProjectCardProps) {
   return (
-    <Link href={href}>
-      <div className="group relative overflow-hidden rounded-lg border bg-background p-2 transition-all hover:shadow-md">
-        <div className="aspect-video w-full overflow-hidden rounded-md bg-muted relative">
-          {imageUrl && (
-            <img
-              src={imageUrl || "/placeholder.svg"}
-              alt={title}
-              className="h-full w-full object-cover transition-transform group-hover:scale-105"
-            />
-          )}
-          {title.toLowerCase().includes("sign language") && (
-            <div className="absolute top-2 right-2 bg-blue-600 text-white px-2 py-1 rounded text-xs font-semibold">
-              GENASL Ready
-            </div>
-          )}
-          <div className="absolute bottom-2 left-2 bg-black/70 text-white px-2 py-1 rounded text-xs">
-            Amazon Generative ASL Compatible
+    <Card className="bg-gray-950 border-gray-800 overflow-hidden">
+      <CardHeader className="pb-2">
+        <div className="flex justify-between items-start">
+          <div>
+            <CardTitle className="text-lg font-medium">{title}</CardTitle>
+            <p className="text-xs text-gray-400">Last updated: {lastUpdated}</p>
+          </div>
+          <Badge variant="outline" className="bg-blue-950/30 text-blue-400 border-blue-800">
+            {type}
+          </Badge>
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <p className="text-sm text-gray-300">{description}</p>
+
+        <div className="space-y-1">
+          <div className="flex justify-between text-xs">
+            <span>Progress</span>
+            <span>{progress}%</span>
+          </div>
+          <Progress value={progress} className="h-1.5" />
+        </div>
+
+        <div className="space-y-2">
+          <p className="text-xs text-gray-400">Compatible with:</p>
+          <div className="flex flex-wrap gap-2">
+            {compatibility.map((item, index) => (
+              <Badge key={index} variant="outline" className="bg-gray-900 border-gray-700 text-xs">
+                {item}
+              </Badge>
+            ))}
           </div>
         </div>
-        <div className="p-4">
-          <h3 className="text-xl font-semibold group-hover:underline">{title}</h3>
-          <p className="mt-2 text-muted-foreground">{description}</p>
-          {genAslEnabled && (
-            <div className="mt-2 flex items-center text-sm text-blue-600">
-              <span className="flex items-center">🤖 Amazon GENASL Integration Active</span>
-            </div>
-          )}
-          <div className="mt-4 flex items-center text-sm text-muted-foreground">
-            <span className="flex items-center">
-              View Project <ArrowUpRight className="ml-1 h-4 w-4" />
-            </span>
-          </div>
-        </div>
-      </div>
-    </Link>
+      </CardContent>
+      <CardFooter>
+        <Button variant="ghost" className="w-full justify-between text-blue-400 hover:text-blue-300">
+          Open Project
+          <ArrowUpRight className="h-4 w-4" />
+        </Button>
+      </CardFooter>
+    </Card>
   )
 }

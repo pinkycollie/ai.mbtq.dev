@@ -1,0 +1,35 @@
+run = "cd backend && python -m app.main"
+entrypoint = "backend/app/main.py"
+modules = ["python-3.10:v18-20230807-322e88b"]
+
+hidden = [".pythonlibs", "__pycache__", "*.pyc", ".env"]
+
+[nix]
+channel = "stable-23_05"
+
+[deployment]
+run = ["sh", "-c", "cd backend && python -m app.main"]
+deploymentTarget = "cloudrun"
+
+[env]
+PORT = "8080"
+PYTHONPATH = "${PYTHONPATH}:${REPL_HOME}"
+PYTHONUNBUFFERED = "1"
+
+[languages]
+
+[languages.python]
+pattern = "**/*.py"
+
+[languages.python.languageServer]
+start = "pylsp"
+
+[unitTest]
+language = "python3"
+
+[gitHubImport]
+requiredFiles = [".replit", "replit.nix"]
+
+[auth]
+pageEnabled = true
+buttonEnabled = true

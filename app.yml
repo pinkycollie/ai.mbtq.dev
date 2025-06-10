@@ -1,0 +1,35 @@
+# This is the GitHub App manifest. This file should be committed to your repo.
+# For more info: https://docs.github.com/en/developers/apps/creating-a-github-app-manifest
+
+# The name of the GitHub App
+name: My Awesome GitHub Bot
+
+# The homepage of your GitHub App
+url: https://github.com/yourusername/my-github-bot
+
+# A description of the GitHub App
+description: A GitHub bot that automates issue and PR workflows
+
+# Set to true when your GitHub App is available to the public
+# Set to false when your GitHub App is only accessible to a specific user/org
+public: false
+
+# The permissions the GitHub App requires
+default_permissions:
+  # Repository contents, commits, branches, downloads, releases, and merges.
+  contents: read
+
+  # Issues and related comments, assignees, labels, and milestones.
+  issues: write
+
+  # Pull requests and related comments, assignees, labels, milestones, and merges.
+  pull_requests: write
+
+# The events the GitHub App subscribes to
+default_events:
+  - issues
+  - issue_comment
+  - pull_request
+  - pull_request_review
+  - pull_request_review_comment
+  - label
