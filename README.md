@@ -1,141 +1,116 @@
-# MBTQ AI - Sign Language AI Platform
+# SPLASH! Component
 
-🌐 **Live at: [ai.mbtq.dev](https://ai.mbtq.dev)**
+A highly customizable floating component designed to indicate funding status or other important information in your React applications.
 
-A revolutionary AI-powered platform bridging communication gaps through sign language interpretation with blockchain-based incentives and AWS GenASL integration.
+## Features
 
-## 🚀 Features
+- 🎨 **Highly Customizable**: Modify colors, size, position, text, and icons
+- ✨ **Animated**: Smooth entrance/exit animations and optional effects
+- 📱 **Responsive**: Works across all device sizes
+- 🔄 **Interactive**: Click handlers and dismissible options
+- ♿ **Accessible**: Built with accessibility in mind
 
-- **Real-time Sign Language Interpretation**: AI model translates sign language gestures into text and speech
-- **AWS GenASL Integration**: Leverages Amazon's Generative AI-powered ASL avatars for expressive animations
-- **Blockchain Token Rewards**: "Sign-to-Earn" model incentivizing user contributions
-- **Multi-industry Datasets**: Pre-trained models for finance, healthcare, real estate, and more
-- **Full-Stack Authentication**: NextAuth.js with OAuth providers and secure session management
-- **Enterprise APIs**: Comprehensive APIs for business integrations
+## Installation
 
-## 🛠️ Tech Stack
+1. Copy the `splash.tsx` component into your project
+2. Ensure you have the required dependencies:
 
-- **Frontend**: Next.js 14, React, TypeScript, Tailwind CSS
-- **Authentication**: NextAuth.js with Google, GitHub OAuth
-- **Database**: Neon PostgreSQL with custom adapter
-- **AI/ML**: Groq AI, Hugging Face Spaces, Computer Vision
-- **Storage**: Vercel Blob for file uploads
-- **AWS Services**: 
-  - Amazon Transcribe (Speech-to-text)
-  - Amazon SageMaker (ML model deployment)
-  - Amazon Bedrock (Foundation models)
-  - AWS Step Functions (Workflow orchestration)
-
-## 🌐 Live Platform
-
-Visit **[ai.mbtq.dev](https://ai.mbtq.dev)** to:
-- Try the live AI chatbot
-- Upload sign language videos
-- Earn tokens for contributions
-- Explore investment opportunities
-
-## 💰 Investment Opportunity
-
-**Seeking $45,000 in funding** for:
-- AI model refinement: $15,000
-- Blockchain integration: $12,000
-- API development: $8,000
-- Marketing: $7,000
-- Legal/compliance: $3,000
-
-**Contact**: invest@signlanguageai.com | (817) 886-2798
-
-## 🚀 Quick Start
-
-1. **Clone the repository**
 \`\`\`bash
-git clone https://github.com/mbtq/ai-platform.git
-cd ai-platform
+npm install framer-motion
 \`\`\`
 
-2. **Install dependencies**
-\`\`\`bash
-npm install
+## Basic Usage
+
+\`\`\`tsx
+import { Splash } from './components/splash'
+
+export default function MyPage() {
+  return (
+    <div>
+      <Splash status="funded" />
+      {/* Your page content */}
+    </div>
+  )
+}
 \`\`\`
 
-3. **Set up environment variables**
-\`\`\`bash
-cp .env.example .env.local
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| status | 'funded' \| 'not-funded' \| 'needs-funding' | 'needs-funding' | The funding status to display |
+| text | string | undefined | Custom text to display in the splash |
+| position | 'top-left' \| 'top-right' \| 'bottom-left' \| 'bottom-right' | 'top-right' | Position of the splash component |
+| size | 'small' \| 'medium' \| 'large' | 'medium' | Size of the splash component |
+| color | string | undefined | Primary color for the splash (Tailwind class) |
+| animated | boolean | true | Whether to show the splash with animations |
+| dismissible | boolean | false | Whether the splash can be dismissed |
+| icon | React.ReactNode | undefined | Custom icon to display |
+| onClick | () => void | undefined | Callback when splash is clicked |
+| className | string | undefined | Additional CSS classes |
+| pulse | boolean | true | Whether to pulse the splash |
+| rotate | boolean | false | Whether to rotate the splash on entry |
+| showDelay | number | 0 | Delay before showing the splash (ms) |
+| show | boolean | true | Whether to show the splash |
+
+## Examples
+
+### Dynamic Status Change
+
+\`\`\`tsx
+import { useState } from 'react'
+import { Splash } from './components/splash'
+
+export default function ProjectPage() {
+  const [projectFunded, setProjectFunded] = useState(false)
+  
+  return (
+    <div>
+      <Splash 
+        status={projectFunded ? "funded" : "needs-funding"}
+        onClick={() => setProjectFunded(!projectFunded)}
+      />
+      
+      <h1>Project Dashboard</h1>
+      <button onClick={() => setProjectFunded(!projectFunded)}>
+        {projectFunded ? "Mark as Needs Funding" : "Mark as Funded"}
+      </button>
+    </div>
+  )
+}
 \`\`\`
 
-4. **Configure your environment**
-- Set up Neon PostgreSQL database
-- Configure OAuth providers (Google, GitHub)
-- Add Groq API key
-- Set up Vercel Blob storage
+### Custom Styling
 
-5. **Run the development server**
-\`\`\`bash
-npm run dev
+\`\`\`tsx
+import { Splash } from './components/splash'
+import { Heart } from 'lucide-react'
+
+export default function CustomSplashExample() {
+  return (
+    <div>
+      <Splash 
+        text="OPEN SOURCE"
+        color="bg-purple-600"
+        icon={<Heart className="h-4 w-4" />}
+        position="bottom-left"
+        size="large"
+        pulse={true}
+        rotate={true}
+      />
+      
+      {/* Your content */}
+    </div>
+  )
+}
 \`\`\`
 
-6. **Visit** [http://localhost:3000](http://localhost:3000)
+## Accessibility Considerations
 
-## 📊 Database Setup
+- Ensure sufficient color contrast between the splash background and text
+- Don't rely solely on color to convey information
+- Consider users who may have animations disabled
 
-Run the complete schema in your Neon dashboard:
-\`\`\`sql
--- See database/complete-schema.sql for full setup
-\`\`\`
+## License
 
-## 🔐 Authentication
-
-- **NextAuth.js** with custom Neon adapter
-- **OAuth providers**: Google, GitHub
-- **Secure sessions** with JWT
-- **Protected routes** with middleware
-- **Role-based access** control
-
-## 🎯 Key Features
-
-### Sign-to-Earn Economy
-- Welcome bonus: 25 tokens
-- Chat interactions: 1 token per message
-- Content uploads: 5 tokens per upload
-- Achievement system with bonus rewards
-
-### AI Capabilities
-- Real-time sign language interpretation
-- Multi-modal input (video, image, text)
-- AWS GenASL avatar generation
-- Industry-specific datasets
-
-### Enterprise Ready
-- Scalable APIs
-- Multi-tenant architecture
-- Analytics and monitoring
-- GDPR compliance
-
-## 📈 Roadmap
-
-- [ ] Mobile app (React Native)
-- [ ] Blockchain token integration
-- [ ] Additional sign languages (BSL, LSF)
-- [ ] Enterprise partnerships
-- [ ] API marketplace
-
-## 🤝 Contributing
-
-We welcome contributions! See [CONTRIBUTING.md](./docs/CONTRIBUTING.md) for guidelines.
-
-## 📄 License
-
-MIT License - see [LICENSE](LICENSE) for details.
-
-## 📞 Contact
-
-- **Website**: [ai.mbtq.dev](https://ai.mbtq.dev)
-- **Email**: invest@signlanguageai.com
-- **Phone**: (817) 886-2798
-- **Investment**: [Investment Perspective](https://ai.mbtq.dev/investment-perspective)
-
----
-
-**Made with ❤️ by MBTQ AI - Advancing AI for Accessibility**
-
-🌐 **Live Platform**: [ai.mbtq.dev](https://ai.mbtq.dev)
+MIT
