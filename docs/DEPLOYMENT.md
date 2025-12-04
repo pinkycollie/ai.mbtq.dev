@@ -111,3 +111,80 @@ REDIS_URL=your_redis_url
 - [ ] CORS properly configured
 - [ ] Security headers implemented
 - [ ] Regular security updates
+
+## Fibonrose DAO Nodes Deployment
+
+Fibonrose DAO provides decentralized infrastructure for Deaf-inclusive applications.
+
+### Prerequisites
+- Fibonrose DAO account
+- Node configuration file
+- Docker installed
+
+### Deployment Steps
+
+1. **Configure Node Settings**
+   ```yaml
+   # fibonrose.config.yml
+   node:
+     name: my-deaf-app
+     type: application
+     resources:
+       cpu: 2
+       memory: 4GB
+       storage: 50GB
+   
+   accessibility:
+     wcagLevel: AA
+     deafInclusive: true
+     signLanguageSupport: true
+   
+   monitoring:
+     enabled: true
+     metrics:
+       - accessibility
+       - performance
+       - usage
+   ```
+
+2. **Build and Push Docker Image**
+   ```bash
+   docker build -t fibonrose-registry/my-deaf-app:latest .
+   docker push fibonrose-registry/my-deaf-app:latest
+   ```
+
+3. **Deploy to Fibonrose**
+   ```bash
+   fibonrose deploy --config fibonrose.config.yml
+   ```
+
+### Environment Variables for Fibonrose
+
+```env
+FIBONROSE_NODE_ID=your_node_id
+FIBONROSE_API_KEY=your_api_key
+FIBONROSE_NETWORK=mainnet
+AWS_GENASL_ENDPOINT=your_genasl_endpoint
+```
+
+## Accessibility Validation
+
+Before deploying, ensure WCAG compliance:
+
+```bash
+# Run MBTQ WCAG check locally
+npm run wcag-check
+
+# Or use the GitHub Action
+# The mbtq-wcag-check workflow runs automatically on push
+```
+
+### Deaf-Specific Accessibility Checklist
+
+- [ ] All videos have captions
+- [ ] Sign language overlay available for key content
+- [ ] Visual alternatives for all audio cues
+- [ ] DeafAUTH integration configured
+- [ ] Visual notifications enabled
+- [ ] High contrast mode available
+- [ ] Keyboard navigation fully functional
