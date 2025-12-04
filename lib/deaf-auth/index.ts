@@ -167,7 +167,9 @@ export class DeafAUTHService {
         signLanguageInterpretation: true,
         notifications: {
           email: true,
-          sms: false, // Default off for Deaf users
+          // SMS defaults off for Deaf users but can be enabled during onboarding
+          // as some Deaf users prefer SMS for text-based communication
+          sms: false,
           push: true,
           visual: true,
         },

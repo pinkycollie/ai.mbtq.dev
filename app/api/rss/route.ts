@@ -107,17 +107,26 @@ function parseRSSXML(xml: string, source: RSSFeedSource): RSSFeedItem[] {
 }
 
 /**
- * Clean HTML tags from string
+ * Clean HTML tags from string safely
+ * This function removes HTML tags and decodes HTML entities safely
+ * to prevent XSS and HTML injection vulnerabilities.
  */
 function cleanHTML(html: string): string {
-  return html
-    .replace(/<[^>]*>/g, "")
-    .replace(/&nbsp;/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .trim()
+  // First, remove all HTML tags using a robust pattern
+  // This pattern matches any tag, including self-closing tags
+  let text = html.replace(/<\/?[^>]+(>|$)/g, "")
+  
+  // Decode common HTML entities in a safe order
+  // to prevent double-unescaping attacks
+  text = text
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&quot;/gi, '"')
+    .replace(/&apos;/gi, "'")
+    .replace(/&lt;/gi, "[")   // Replace with safe bracket
+    .replace(/&gt;/gi, "]")   // Replace with safe bracket
+    .replace(/&amp;/gi, "&")  // Must be last to prevent double-unescaping
+  
+  return text.trim()
 }
 
 /**

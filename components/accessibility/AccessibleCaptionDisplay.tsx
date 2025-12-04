@@ -71,6 +71,17 @@ const fontFamilyMap = {
 }
 
 /**
+ * Add opacity to a hex color string
+ * @param color - Hex color string (e.g., "#000000")
+ * @param opacity - Opacity value between 0 and 1
+ * @returns Hex color with alpha channel
+ */
+function addOpacityToHexColor(color: string, opacity: number): string {
+  const alpha = Math.round(opacity * 255).toString(16).padStart(2, "0")
+  return `${color}${alpha}`
+}
+
+/**
  * AccessibleCaptionDisplay - WCAG 2.1 AA compliant caption display
  * 
  * Features:
@@ -268,11 +279,10 @@ interface CaptionTextProps {
 
 function CaptionText({ caption, settings, showSpeakerLabel }: CaptionTextProps) {
   const bgStyle = {
-    backgroundColor: `${settings.backgroundColor}${Math.round(
-      settings.backgroundOpacity * 255
-    )
-      .toString(16)
-      .padStart(2, "0")}`,
+    backgroundColor: addOpacityToHexColor(
+      settings.backgroundColor,
+      settings.backgroundOpacity
+    ),
   }
 
   return (

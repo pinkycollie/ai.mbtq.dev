@@ -190,7 +190,9 @@ export class MediaPipeSignRecognition extends SignRecognitionModel {
   }
 
   private getDefaultVocabulary(): string[] {
-    // Common signs across sign languages
+    // Concepts that have corresponding signs in most sign languages.
+    // Note: The actual signs vary between ASL, BSL, etc. - these are
+    // gloss representations of the concepts.
     return [
       "HELLO", "GOODBYE", "THANK_YOU", "PLEASE", "YES", "NO",
       "HELP", "SORRY", "LOVE", "FRIEND", "FAMILY", "FOOD",

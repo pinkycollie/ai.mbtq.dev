@@ -40,6 +40,9 @@ export interface SignLanguageOverlayProps {
   playbackSpeed?: number
 }
 
+/** Maximum characters to display in the signing indicator */
+const MAX_DISPLAY_TEXT_LENGTH = 30
+
 /**
  * SignLanguageOverlay - Real-time sign language video overlay component
  * 
@@ -286,7 +289,7 @@ export function SignLanguageOverlay({
         {/* Current text being signed */}
         {text && (
           <div className="mt-2 text-xs text-muted-foreground truncate" title={text}>
-            Signing: &quot;{text.substring(0, 30)}{text.length > 30 ? "..." : ""}&quot;
+            Signing: &quot;{text.substring(0, MAX_DISPLAY_TEXT_LENGTH)}{text.length > MAX_DISPLAY_TEXT_LENGTH ? "..." : ""}&quot;
           </div>
         )}
       </CardContent>
