@@ -8,6 +8,3 @@ export {
   getSignTranslation,
   type SignLanguage 
 } from './sign-translation'
-
-// Re-export types
-export type { default as SignLanguageTranslationServiceType } from './sign-translation'

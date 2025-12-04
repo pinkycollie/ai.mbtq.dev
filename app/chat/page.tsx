@@ -16,10 +16,22 @@ interface Message {
   content: string
 }
 
+// Generate unique ID with fallback
+function generateId(): string {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return crypto.randomUUID()
+  }
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = Math.random() * 16 | 0
+    const v = c === 'x' ? r : (r & 0x3 | 0x8)
+    return v.toString(16)
+  })
+}
+
 export default function ChatPage() {
   const { user } = useAuth()
   const { balance, refreshBalance } = useTokens(user?.id)
-  const [sessionId] = useState(() => typeof crypto !== 'undefined' ? crypto.randomUUID() : 'session')
+  const [sessionId] = useState(() => generateId())
   const [uploadedFiles, setUploadedFiles] = useState<Array<{ url: string; type: string }>>([])
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [messages, setMessages] = useState<Message[]>([])
@@ -35,7 +47,7 @@ export default function ChatPage() {
     if (!input.trim() || isLoading) return
 
     const userMessage: Message = {
-      id: crypto.randomUUID(),
+      id: generateId(),
       role: 'user',
       content: input.trim()
     }
@@ -61,7 +73,7 @@ export default function ChatPage() {
         let assistantContent = ''
 
         const assistantMessage: Message = {
-          id: crypto.randomUUID(),
+          id: generateId(),
           role: 'assistant',
           content: ''
         }

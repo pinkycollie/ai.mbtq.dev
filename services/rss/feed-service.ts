@@ -56,8 +56,8 @@ interface AggregatedFeed {
   totalItems: number
 }
 
-// Curated feed sources for Deaf community
-const CURATED_FEEDS: FeedSource[] = [
+// Curated feed sources for Deaf community (default feeds)
+const DEFAULT_CURATED_FEEDS: FeedSource[] = [
   {
     id: 'deaf-news-today',
     name: 'Deaf News Today',
@@ -128,24 +128,26 @@ interface CacheEntry {
 export class RSSFeedService {
   private config: RSSConfig
   private cache: Map<string, CacheEntry>
+  private feeds: FeedSource[]
 
   constructor(config: Partial<RSSConfig> = {}) {
     this.config = RSSConfigSchema.parse(config)
     this.cache = new Map()
+    this.feeds = [...DEFAULT_CURATED_FEEDS]
   }
 
   /**
    * Get all curated feed sources
    */
   getSources(): FeedSource[] {
-    return [...CURATED_FEEDS]
+    return [...this.feeds]
   }
 
   /**
    * Get sources by category
    */
   getSourcesByCategory(category: FeedCategory): FeedSource[] {
-    return CURATED_FEEDS.filter(feed => feed.category === category)
+    return this.feeds.filter(feed => feed.category === category)
   }
 
   /**
@@ -167,7 +169,7 @@ export class RSSFeedService {
    * Fetch a single feed
    */
   async fetchFeed(sourceId: string): Promise<FeedItem[]> {
-    const source = CURATED_FEEDS.find(f => f.id === sourceId)
+    const source = this.feeds.find(f => f.id === sourceId)
     if (!source) {
       throw new Error(`Feed source not found: ${sourceId}`)
     }
@@ -196,7 +198,7 @@ export class RSSFeedService {
   async fetchAllFeeds(): Promise<AggregatedFeed> {
     const allItems: FeedItem[] = []
 
-    for (const source of CURATED_FEEDS) {
+    for (const source of this.feeds) {
       try {
         const items = await this.fetchFeed(source.id)
         allItems.push(...items)
@@ -209,8 +211,8 @@ export class RSSFeedService {
     allItems.sort((a, b) => b.pubDate.getTime() - a.pubDate.getTime())
 
     return {
-      sources: CURATED_FEEDS,
-      items: allItems.slice(0, this.config.maxItemsPerFeed * CURATED_FEEDS.length),
+      sources: this.feeds,
+      items: allItems.slice(0, this.config.maxItemsPerFeed * this.feeds.length),
       lastUpdated: new Date(),
       totalItems: allItems.length,
     }
@@ -263,7 +265,7 @@ export class RSSFeedService {
   addCustomSource(source: Omit<FeedSource, 'id'>): FeedSource {
     const id = `custom-${Date.now()}`
     const newSource: FeedSource = { ...source, id }
-    CURATED_FEEDS.push(newSource)
+    this.feeds.push(newSource)
     return newSource
   }
 
@@ -271,9 +273,9 @@ export class RSSFeedService {
    * Remove a custom feed source
    */
   removeSource(sourceId: string): boolean {
-    const index = CURATED_FEEDS.findIndex(f => f.id === sourceId)
+    const index = this.feeds.findIndex(f => f.id === sourceId)
     if (index > -1 && sourceId.startsWith('custom-')) {
-      CURATED_FEEDS.splice(index, 1)
+      this.feeds.splice(index, 1)
       this.cache.delete(sourceId)
       return true
     }

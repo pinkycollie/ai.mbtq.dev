@@ -4,6 +4,3 @@
  */
 
 export { RSSFeedService, getRSSService } from './feed-service'
-
-// Re-export types
-export type { default as RSSFeedServiceType } from './feed-service'

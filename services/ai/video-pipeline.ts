@@ -77,10 +77,25 @@ export class VideoPipelineService {
   }
 
   /**
+   * Generate a unique ID (works in both browser and Node.js)
+   */
+  private generateId(): string {
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+      return crypto.randomUUID()
+    }
+    // Fallback for environments without crypto.randomUUID
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      const r = Math.random() * 16 | 0
+      const v = c === 'x' ? r : (r & 0x3 | 0x8)
+      return v.toString(16)
+    })
+  }
+
+  /**
    * Start processing a video
    */
   async processVideo(inputUrl: string, options: Partial<VideoConfig> = {}): Promise<VideoProcessingResult> {
-    const jobId = crypto.randomUUID()
+    const jobId = this.generateId()
     const mergedConfig = { ...this.config, ...options }
 
     const result: VideoProcessingResult = {
