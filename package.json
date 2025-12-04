@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@ai-sdk/groq": "latest",
+    "@ai-sdk/react": "^2.0.106",
     "@auth/core": "latest",
     "@neondatabase/serverless": "latest",
     "@radix-ui/react-accordion": "^1.1.2",
@@ -36,6 +37,7 @@
     "lucide-react": "^0.454.0",
     "next": "15.2.4",
     "next-auth": "latest",
+    "next-themes": "^0.4.6",
     "nodemailer": "latest",
     "react": "^19",
     "react-dom": "^19",
