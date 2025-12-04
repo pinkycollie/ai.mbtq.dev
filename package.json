@@ -1,7 +1,7 @@
 {
-  "name": "pinky-ai-projects",
-  "version": "1.0.0",
-  "description": "Sign Language AI Chatbot Platform with blockchain incentives and AWS GenASL integration",
+  "name": "mbtq-ai-platform",
+  "version": "2.0.0",
+  "description": "Generative AI Development Platform with Sign Language capabilities, Deaf-centric accessibility, and containerized deployment",
   "private": true,
   "type": "module",
   "scripts": {
@@ -11,7 +11,11 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "type-check": "tsc --noEmit",
-    "db:setup": "node scripts/setup-db.mjs"
+    "db:setup": "node scripts/setup-db.mjs",
+    "cli": "node cli/launcher.mjs",
+    "docker:build": "docker build -t mbtq-ai-platform .",
+    "docker:run": "docker-compose up -d",
+    "docker:stop": "docker-compose down"
   },
   "dependencies": {
     "@ai-sdk/groq": "latest",
@@ -25,20 +29,17 @@
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-tabs": "^1.0.4",
     "@types/bcryptjs": "^2.4.6",
-    "@vercel/blob": "latest",
     "ai": "latest",
     "bcryptjs": "latest",
-    "child_process": "latest",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "fs": "latest",
     "lucide-react": "^0.454.0",
     "next": "15.2.4",
     "next-auth": "latest",
     "nodemailer": "latest",
-    "path": "latest",
     "react": "^19",
     "react-dom": "^19",
+    "rss-parser": "^3.13.0",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "zod": "latest"
@@ -55,12 +56,15 @@
     "typescript": "^5"
   },
   "keywords": [
+    "generative-ai",
     "sign-language",
-    "ai",
     "accessibility",
-    "blockchain",
-    "aws-genasl",
+    "deaf-community",
+    "asl-translation",
+    "bsl-translation",
     "machine-learning",
+    "docker",
+    "microservices",
     "nextjs",
     "typescript"
   ],
