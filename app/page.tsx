@@ -232,9 +232,9 @@ export default function Home() {
                 Create Free Account
               </Button>
             </Link>
-            <Link href="/investment-perspective">
+            <Link href="/pinkflow">
               <Button variant="outline" size="lg" className="text-lg px-8 py-3">
-                Investment Opportunity
+                PinkFlow Validation
               </Button>
             </Link>
           </div>
