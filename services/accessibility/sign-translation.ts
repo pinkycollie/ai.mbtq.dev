@@ -6,11 +6,18 @@
 import { z } from 'zod'
 
 // Supported sign languages
-export type SignLanguage = 'asl' | 'bsl' | 'lsf' | 'dgs' | 'jsl' | 'auslan'
+// asl = American Sign Language
+// bsl = British Sign Language
+// lsf = Langue des Signes Française (French)
+// dgs = Deutsche Gebärdensprache (German)
+// jsl = Japanese Sign Language
+// auslan = Australian Sign Language
+// lsrd = Lengua de Señas de la República Dominicana (Dominican Republic)
+export type SignLanguage = 'asl' | 'bsl' | 'lsf' | 'dgs' | 'jsl' | 'auslan' | 'lsrd'
 
 // Configuration schema
 const TranslationConfigSchema = z.object({
-  defaultLanguage: z.enum(['asl', 'bsl', 'lsf', 'dgs', 'jsl', 'auslan']).default('asl'),
+  defaultLanguage: z.enum(['asl', 'bsl', 'lsf', 'dgs', 'jsl', 'auslan', 'lsrd']).default('asl'),
   enableGlossNotation: z.boolean().default(true),
   includeFacialExpressions: z.boolean().default(true),
   includeNonManualSignals: z.boolean().default(true),
@@ -235,7 +242,7 @@ export class SignLanguageTranslationService {
    * Get supported languages
    */
   getSupportedLanguages(): SignLanguage[] {
-    return ['asl', 'bsl', 'lsf', 'dgs', 'jsl', 'auslan']
+    return ['asl', 'bsl', 'lsf', 'dgs', 'jsl', 'auslan', 'lsrd']
   }
 
   /**
