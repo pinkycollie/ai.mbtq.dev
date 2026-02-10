@@ -6,8 +6,10 @@ const databaseUrl = process.env.DATABASE_URL || ''
 // Create a mock sql function for build time when DATABASE_URL is not set
 const createSql = () => {
   if (!databaseUrl) {
-    // Return a mock function for build time
-    return async (...args: any[]) => []
+    // Throw an error if database operations are attempted without DATABASE_URL
+    return async (...args: any[]) => {
+      throw new Error("DATABASE_URL is not set. Database operations are not possible. Please set the DATABASE_URL environment variable.");
+    }
   }
   return neon(databaseUrl)
 }
