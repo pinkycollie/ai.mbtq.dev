@@ -37,7 +37,7 @@
     "next-auth": "latest",
     "nodemailer": "latest",
     "path": "latest",
-    "react": "^19",
+    "react": "^19.2.3",
     "react-dom": "^19",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
