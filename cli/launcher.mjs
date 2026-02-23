@@ -4,7 +4,7 @@
  * Terminal-based CLI for automation, scaffolding, and workflow management
  */
 
-import { execSync, spawn } from 'child_process'
+import { execSync } from 'child_process'
 import fs from 'fs'
 import path from 'path'
 import readline from 'readline'
