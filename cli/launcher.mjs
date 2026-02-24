@@ -7,7 +7,6 @@
 import { execSync } from 'child_process'
 import fs from 'fs'
 import path from 'path'
-import readline from 'readline'
 
 const VERSION = '2.0.0'
 const COLORS = {
