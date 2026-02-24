@@ -271,7 +271,6 @@ export class SignLanguageTranslationService {
    * Create fingerspelling representation for unknown words
    */
   private fingerspell(word: string): SignRepresentation {
-    const letters = word.toUpperCase().split('')
     return {
       gloss: `FS:${word.toUpperCase()}`,
       handshape: 'Fingerspelling handshapes',
