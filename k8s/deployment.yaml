@@ -19,11 +19,32 @@ spec:
         image: mbtq-ai-platform:latest
         ports:
         - containerPort: 3000
+        # Required environment variables:
+        # - NODE_ENV: Application environment (e.g., "production", "development")
+        # - PORT: Port the application listens on
+        # - DATABASE_URL: Database connection string (secret)
+        # - API_KEY: External service API key (secret)
         env:
         - name: NODE_ENV
-          value: "production"
+          valueFrom:
+            configMapKeyRef:
+              name: mbtq-ai-platform-config
+              key: NODE_ENV
         - name: PORT
-          value: "3000"
+          valueFrom:
+            configMapKeyRef:
+              name: mbtq-ai-platform-config
+              key: PORT
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: mbtq-ai-platform-secrets
+              key: DATABASE_URL
+        - name: API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: mbtq-ai-platform-secrets
+              key: API_KEY
         resources:
           requests:
             memory: "256Mi"
