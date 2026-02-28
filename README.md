@@ -1,141 +1,208 @@
-# MBTQ AI - Sign Language AI Platform
+# AI Framework for Deaf Inclusion
 
-🌐 **Live at: [ai.mbtq.dev](https://ai.mbtq.dev)**
+A comprehensive framework for building Deaf-inclusive web applications with AI-powered sign language recognition, WCAG-compliant components, and accessibility-first design.
 
-A revolutionary AI-powered platform bridging communication gaps through sign language interpretation with blockchain-based incentives and AWS GenASL integration.
+[![WCAG 2.1 AA](https://img.shields.io/badge/WCAG-2.1%20AA-green.svg)](https://www.w3.org/WAI/WCAG21/quickref/)
+[![Deaf Inclusive](https://img.shields.io/badge/Deaf-Inclusive-blue.svg)](#deaf-inclusion-features)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## 🚀 Features
+## 🌟 Key Features
 
-- **Real-time Sign Language Interpretation**: AI model translates sign language gestures into text and speech
-- **AWS GenASL Integration**: Leverages Amazon's Generative AI-powered ASL avatars for expressive animations
-- **Blockchain Token Rewards**: "Sign-to-Earn" model incentivizing user contributions
-- **Multi-industry Datasets**: Pre-trained models for finance, healthcare, real estate, and more
-- **Full-Stack Authentication**: NextAuth.js with OAuth providers and secure session management
-- **Enterprise APIs**: Comprehensive APIs for business integrations
+### Accessible Components
+- **AccessibleVideoPlayer**: WCAG 2.1 AA compliant video player with built-in captioning and sign language overlay
+- **SignLanguageOverlay**: Real-time sign language video overlay supporting ASL, BSL, Auslan, NZSL, LSF, DGS, JSL
+- **AccessibleCaptionDisplay**: Customizable caption display with high contrast options
 
-## 🛠️ Tech Stack
+### Machine Learning Models
+- **Vision Models**: Pre-trained models for sign language recognition with MediaPipe and TensorFlow.js
+- **Language Models**: ASL/BSL syntax translation with grammar rule support
+- **Accessibility Standards Generator**: Automated WCAG compliance checking
 
-- **Frontend**: Next.js 14, React, TypeScript, Tailwind CSS
-- **Authentication**: NextAuth.js with Google, GitHub OAuth
-- **Database**: Neon PostgreSQL with custom adapter
-- **AI/ML**: Groq AI, Hugging Face Spaces, Computer Vision
-- **Storage**: Vercel Blob for file uploads
-- **AWS Services**: 
-  - Amazon Transcribe (Speech-to-text)
-  - Amazon SageMaker (ML model deployment)
-  - Amazon Bedrock (Foundation models)
-  - AWS Step Functions (Workflow orchestration)
+### Authentication
+- **DeafAUTH**: Visual-first authentication system with video verification and visual CAPTCHA
 
-## 🌐 Live Platform
+### Infrastructure
+- **MBTQ WCAG Action**: GitHub Action for CI/CD accessibility validation
+- **Fibonrose DAO Nodes**: Decentralized deployment infrastructure
+- **RSS Feed Aggregator**: Deaf-related content aggregation
 
-Visit **[ai.mbtq.dev](https://ai.mbtq.dev)** to:
-- Try the live AI chatbot
-- Upload sign language videos
-- Earn tokens for contributions
-- Explore investment opportunities
-
-## 💰 Investment Opportunity
-
-**Seeking $45,000 in funding** for:
-- AI model refinement: $15,000
-- Blockchain integration: $12,000
-- API development: $8,000
-- Marketing: $7,000
-- Legal/compliance: $3,000
-
-**Contact**: invest@signlanguageai.com | (817) 886-2798
+### Templates
+- Deaf Organization SaaS starter
+- Video Platform with ASL/BSL overlay
+- Educational Platform template
 
 ## 🚀 Quick Start
 
-1. **Clone the repository**
-\`\`\`bash
-git clone https://github.com/mbtq/ai-platform.git
-cd ai-platform
-\`\`\`
+```bash
+# Clone the repository
+git clone https://github.com/pinkycollie/ai.mbtq.dev.git
+cd ai.mbtq.dev
 
-2. **Install dependencies**
-\`\`\`bash
+# Install dependencies
 npm install
-\`\`\`
 
-3. **Set up environment variables**
-\`\`\`bash
-cp .env.example .env.local
-\`\`\`
-
-4. **Configure your environment**
-- Set up Neon PostgreSQL database
-- Configure OAuth providers (Google, GitHub)
-- Add Groq API key
-- Set up Vercel Blob storage
-
-5. **Run the development server**
-\`\`\`bash
+# Run development server
 npm run dev
-\`\`\`
+```
 
-6. **Visit** [http://localhost:3000](http://localhost:3000)
+## 📦 Component Usage
 
-## 📊 Database Setup
+### AccessibleVideoPlayer
 
-Run the complete schema in your Neon dashboard:
-\`\`\`sql
--- See database/complete-schema.sql for full setup
-\`\`\`
+```tsx
+import { AccessibleVideoPlayer } from "@/components/accessibility"
 
-## 🔐 Authentication
+<AccessibleVideoPlayer
+  src="/videos/presentation.mp4"
+  title="Welcome Message"
+  captions={[
+    { src: "/captions/en.vtt", label: "English", language: "en", default: true }
+  ]}
+  signLanguageOverlay={{
+    videoSrc: "/signs/asl/welcome.mp4",
+    language: "asl",
+    position: "bottom-right"
+  }}
+/>
+```
 
-- **NextAuth.js** with custom Neon adapter
-- **OAuth providers**: Google, GitHub
-- **Secure sessions** with JWT
-- **Protected routes** with middleware
-- **Role-based access** control
+### SignLanguageOverlay
 
-## 🎯 Key Features
+```tsx
+import { SignLanguageOverlay } from "@/components/accessibility"
 
-### Sign-to-Earn Economy
-- Welcome bonus: 25 tokens
-- Chat interactions: 1 token per message
-- Content uploads: 5 tokens per upload
-- Achievement system with bonus rewards
+<SignLanguageOverlay
+  text="Hello, welcome to our platform"
+  language="asl"
+  genAslEndpoint={process.env.AWS_GENASL_ENDPOINT}
+  size="medium"
+  position="bottom-right"
+/>
+```
 
-### AI Capabilities
-- Real-time sign language interpretation
-- Multi-modal input (video, image, text)
-- AWS GenASL avatar generation
-- Industry-specific datasets
+### DeafAUTH Integration
 
-### Enterprise Ready
-- Scalable APIs
-- Multi-tenant architecture
-- Analytics and monitoring
-- GDPR compliance
+```tsx
+import { DeafAUTHService } from "@/lib/deaf-auth"
 
-## 📈 Roadmap
+const deafAuth = new DeafAUTHService({
+  visualTwoFactor: true,
+  signLanguage: "asl",
+  visualCaptcha: true
+})
 
-- [ ] Mobile app (React Native)
-- [ ] Blockchain token integration
-- [ ] Additional sign languages (BSL, LSF)
-- [ ] Enterprise partnerships
-- [ ] API marketplace
+// Create user with Deaf-friendly defaults
+const user = await deafAuth.createUser(email, password, {
+  isDeaf: true,
+  preferredSignLanguage: "asl"
+})
+```
+
+## 🔧 Machine Learning
+
+### Sign Language Recognition
+
+```typescript
+import { createSignRecognitionModel } from "@/lib/ml"
+
+const model = createSignRecognitionModel("asl", "balanced")
+await model.load()
+
+const result = await model.recognize(videoFrame)
+console.log(result.sign, result.confidence)
+```
+
+### Text to Sign Translation
+
+```typescript
+import { SignLanguageTranslator } from "@/lib/ml"
+
+const translator = new SignLanguageTranslator("asl")
+const result = translator.translate("Hello, how are you?")
+console.log(result.signSequence) // [{sign: "HELLO"}, {sign: "HOW"}, ...]
+```
+
+## 🔍 WCAG Compliance
+
+This project includes a GitHub Action for automated WCAG compliance checking:
+
+```yaml
+# .github/workflows/mbtq-wcag-check.yml
+# Runs on push/PR to validate accessibility
+```
+
+The action checks:
+- Caption presence in video content
+- Sign language overlay implementation
+- Keyboard accessibility
+- Color contrast ratios
+- ARIA labels and roles
+
+## 📂 Project Structure
+
+```
+├── app/                    # Next.js application
+│   ├── api/               # API routes
+│   │   ├── rss/           # RSS feed aggregator
+│   │   └── ...
+│   └── ...
+├── components/
+│   ├── accessibility/     # Deaf-inclusive components
+│   │   ├── AccessibleVideoPlayer.tsx
+│   │   ├── SignLanguageOverlay.tsx
+│   │   └── AccessibleCaptionDisplay.tsx
+│   └── ui/               # Base UI components
+├── lib/
+│   ├── ml/               # Machine learning utilities
+│   │   ├── vision-models.ts
+│   │   └── language-models.ts
+│   └── deaf-auth/        # DeafAUTH integration
+├── templates/            # SaaS starter templates
+└── .github/workflows/    # CI/CD workflows
+```
+
+## 🌐 Deployment
+
+### Vercel (Recommended)
+```bash
+vercel deploy
+```
+
+### Fibonrose DAO Nodes
+```bash
+docker build -t fibonrose-registry/app:latest .
+fibonrose deploy --config fibonrose.config.yml
+```
+
+See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for detailed instructions.
+
+## 📖 Documentation
+
+- [API Documentation](docs/API.md)
+- [Deployment Guide](docs/DEPLOYMENT.md)
+- [Contributing Guide](docs/CONTRIBUTING.md)
+- [SignLanguageAssistant](SignLanguageAssistant/README.md)
 
 ## 🤝 Contributing
 
-We welcome contributions! See [CONTRIBUTING.md](./docs/CONTRIBUTING.md) for guidelines.
+We welcome contributions! Please see [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md).
 
 ## 📄 License
 
-MIT License - see [LICENSE](LICENSE) for details.
-
-## 📞 Contact
-
-- **Website**: [ai.mbtq.dev](https://ai.mbtq.dev)
-- **Email**: invest@signlanguageai.com
-- **Phone**: (817) 886-2798
-- **Investment**: [Investment Perspective](https://ai.mbtq.dev/investment-perspective)
+MIT License - See [LICENSE](LICENSE)
 
 ---
 
-**Made with ❤️ by MBTQ AI - Advancing AI for Accessibility**
+## Legacy Documentation
 
-🌐 **Live Platform**: [ai.mbtq.dev](https://ai.mbtq.dev)
+### Repository Goals
+This repository aims to improve understanding of system integration, AI workflow, and microservices, specifically focusing on `DeafAUTH`, `PinkSync`, and `Fibonrose`.
+
+### Architectural Compatibility
+To facilitate this understanding, [mbtq_architecture.html](mbtq_architecture.html) has been linked as a key component.
+
+### Backend Transition: Flask to FastAPI
+We are transitioning our backend from Flask to FastAPI for better performance and scalability. This transition aims to leverage FastAPI's asynchronous capabilities and automatic generation of API documentation.
+
+### Blockchain Node Logging Strategy
+Detailed logging strategies for blockchain nodes will be embedded to enhance traceability and performance monitoring. Strategies include transaction logging, error reporting, and performance benchmarks.

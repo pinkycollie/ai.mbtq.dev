@@ -12,8 +12,9 @@ export function Navigation() {
     { href: "/", label: "Home" },
     { href: "/projects", label: "Projects" },
     { href: "/chat", label: "AI Chat" },
-    { href: "/about", label: "About" },
-    { href: "/investment-perspective", label: "Investment" },
+    { href: "/pinkflow", label: "PinkFlow" },
+    { href: "/report", label: "Reports" },
+    { href: "/pinksync-estimator", label: "PinkSync" },
   ]
 
   return (
