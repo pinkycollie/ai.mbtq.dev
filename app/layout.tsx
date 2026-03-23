@@ -1,11 +1,8 @@
 import type React from "react"
 import "./globals.css"
-import { Inter } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import { AuthProvider } from "@/components/auth-provider"
 import { Navigation } from "@/components/navigation"
-
-const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
   title: "MBTQ AI - Sign Language AI Platform",
@@ -66,7 +63,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#3b82f6" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body className={inter.className}>
+      <body className="font-sans">
         <AuthProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <div className="min-h-screen flex flex-col">

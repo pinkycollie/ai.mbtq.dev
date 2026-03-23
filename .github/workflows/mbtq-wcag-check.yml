@@ -14,9 +14,9 @@ name:  WCAG Compliance Check
 
 on:
   push:
-    branches: [main, develop]
+    branches: [wcag-compliance-check)
   pull_request:
-    branches: [main, develop]
+    branches: [AutoTest]
   workflow_dispatch:
     inputs:
       wcag_level:

@@ -1,6 +1,6 @@
 /**
- * Deployment script for Pinky's AI Projects
- * Handles environment setup and deployment to various platforms
+ * Deployment script for MBTQ AI Platform
+ * Handles environment setup and deployment to containerized solutions (Docker/Kubernetes)
  */
 
 import { execSync } from "child_process"
@@ -8,9 +8,9 @@ import fs from "fs"
 import path from "path"
 
 const PLATFORMS = {
-  VERCEL: "vercel",
   AWS: "aws",
   DOCKER: "docker",
+  KUBERNETES: "kubernetes",
 }
 
 function checkEnvironment() {
@@ -43,17 +43,6 @@ function buildProject() {
   }
 }
 
-function deployToVercel() {
-  console.log("🚀 Deploying to Vercel...")
-  try {
-    execSync("vercel --prod", { stdio: "inherit" })
-    console.log("✅ Deployed to Vercel successfully")
-  } catch (error) {
-    console.error("❌ Vercel deployment failed:", error.message)
-    process.exit(1)
-  }
-}
-
 function deployToAWS() {
   console.log("🚀 Deploying to AWS...")
   try {
@@ -68,8 +57,8 @@ function deployToAWS() {
 function deployWithDocker() {
   console.log("🐳 Building and deploying with Docker...")
   try {
-    execSync("docker build -t pinky-ai-projects .", { stdio: "inherit" })
-    execSync("docker run -p 3000:3000 pinky-ai-projects", { stdio: "inherit" })
+    execSync("docker build -t mbtq-ai-platform .", { stdio: "inherit" })
+    execSync("docker-compose up -d", { stdio: "inherit" })
     console.log("✅ Docker deployment completed")
   } catch (error) {
     console.error("❌ Docker deployment failed:", error.message)
@@ -77,8 +66,22 @@ function deployWithDocker() {
   }
 }
 
+function deployWithKubernetes() {
+  console.log("☸️  Deploying to Kubernetes...")
+  try {
+    // Build Docker image
+    execSync("docker build -t mbtq-ai-platform:latest .", { stdio: "inherit" })
+    // Apply Kubernetes manifests
+    execSync("kubectl apply -f k8s/", { stdio: "inherit" })
+    console.log("✅ Kubernetes deployment completed")
+  } catch (error) {
+    console.error("❌ Kubernetes deployment failed:", error.message)
+    process.exit(1)
+  }
+}
+
 function main() {
-  const platform = process.argv[2] || PLATFORMS.VERCEL
+  const platform = process.argv[2] || PLATFORMS.DOCKER
 
   console.log(`🚀 Starting deployment to ${platform}...`)
 
@@ -86,14 +89,14 @@ function main() {
   buildProject()
 
   switch (platform) {
-    case PLATFORMS.VERCEL:
-      deployToVercel()
-      break
     case PLATFORMS.AWS:
       deployToAWS()
       break
     case PLATFORMS.DOCKER:
       deployWithDocker()
+      break
+    case PLATFORMS.KUBERNETES:
+      deployWithKubernetes()
       break
     default:
       console.error("❌ Unknown platform:", platform)
@@ -109,4 +112,4 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   main()
 }
 
-export { checkEnvironment, buildProject, deployToVercel, deployToAWS, deployWithDocker }
+export { checkEnvironment, buildProject, deployToAWS, deployWithDocker, deployWithKubernetes }
