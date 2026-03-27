@@ -469,7 +469,7 @@ export async function logToFibonrose(event: {
 
 ```bash
 # Clone monorepo
-git clone https://github.com/MBTQ/mbtq-universe
+git clone https://github.com/mbtq-universe
 cd mbtq-universe
 
 # Install all dependencies
