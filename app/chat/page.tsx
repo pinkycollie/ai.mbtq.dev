@@ -1,8 +1,6 @@
 "use client"
 
 import type React from "react"
-
-import { useChat } from "ai/react"
 import { useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -11,32 +9,114 @@ import { Upload, Send, Video, ImageIcon, Coins } from "lucide-react"
 import { useAuth } from "@/hooks/useAuth"
 import { useTokens } from "@/hooks/useTokens"
 
+// Message type for chat
+interface Message {
+  id: string
+  role: 'user' | 'assistant'
+  content: string
+}
+
+// Generate unique ID with fallback
+function generateId(): string {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return crypto.randomUUID()
+  }
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = Math.random() * 16 | 0
+    const v = c === 'x' ? r : (r & 0x3 | 0x8)
+    return v.toString(16)
+  })
+}
+
 export default function ChatPage() {
   const { user } = useAuth()
   const { balance, refreshBalance } = useTokens(user?.id)
-  const [sessionId] = useState(() => crypto.randomUUID())
+  const [sessionId] = useState(() => generateId())
   const [uploadedFiles, setUploadedFiles] = useState<Array<{ url: string; type: string }>>([])
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [messages, setMessages] = useState<Message[]>([])
+  const [input, setInput] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
-  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
-    api: "/api/chat",
-    body: {
-      userId: user?.id,
-      sessionId: sessionId,
-    },
-    onFinish: () => {
-      refreshBalance()
-    },
-  })
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(e.target.value)
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!input.trim() || isLoading) return
+
+    const userMessage: Message = {
+      id: generateId(),
+      role: 'user',
+      content: input.trim()
+    }
+
+    setMessages(prev => [...prev, userMessage])
+    setInput('')
+    setIsLoading(true)
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: [...messages, userMessage].map(m => ({ role: m.role, content: m.content })),
+          userId: user?.id,
+          sessionId: sessionId,
+        }),
+      })
+
+      if (response.ok) {
+        const reader = response.body?.getReader()
+        const decoder = new TextDecoder()
+        let assistantContent = ''
+
+        const assistantMessage: Message = {
+          id: generateId(),
+          role: 'assistant',
+          content: ''
+        }
+        setMessages(prev => [...prev, assistantMessage])
+
+        while (reader) {
+          const { done, value } = await reader.read()
+          if (done) break
+          
+          const chunk = decoder.decode(value)
+          // Parse streaming response
+          const lines = chunk.split('\n')
+          for (const line of lines) {
+            if (line.startsWith('0:')) {
+              try {
+                const text = JSON.parse(line.slice(2))
+                assistantContent += text
+                setMessages(prev => 
+                  prev.map(m => m.id === assistantMessage.id 
+                    ? { ...m, content: assistantContent }
+                    : m
+                  )
+                )
+              } catch {
+                // Skip malformed chunks
+              }
+            }
+          }
+        }
+        refreshBalance()
+      }
+    } catch (error) {
+      console.error('Chat error:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (!file) return
 
     try {
-      const formData = new FormData()
-      formData.append("file", file)
-
       const response = await fetch(`/api/upload?filename=${file.name}&userId=${user?.id}`, {
         method: "POST",
         body: file,
@@ -56,7 +136,7 @@ export default function ChatPage() {
 
         // Add a message about the upload
         const uploadMessage = `I've uploaded a ${file.type.startsWith("video/") ? "video" : "image"} file: ${file.name}. Can you help me interpret the sign language content?`
-        handleInputChange({ target: { value: uploadMessage } } as any)
+        setInput(uploadMessage)
       }
     } catch (error) {
       console.error("Upload failed:", error)

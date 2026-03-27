@@ -29,16 +29,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/investment-perspective`,
+      url: `${baseUrl}/pinkflow`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
+      changeFrequency: "weekly",
+      priority: 0.8,
     },
     {
-      url: `${baseUrl}/about`,
+      url: `${baseUrl}/report`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.6,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/pinksync-estimator`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.7,
     },
     {
       url: `${baseUrl}/auth/signin`,

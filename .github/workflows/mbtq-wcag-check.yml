@@ -1,4 +1,4 @@
-# MBTQ WCAG Compliance Validation Action
+#  WCAG Compliance Validation Action
 # 
 # This workflow validates WCAG accessibility compliance for Deaf-inclusive web applications.
 # It runs on push and pull requests to ensure accessibility standards are maintained.
@@ -10,13 +10,13 @@
 # - Contrast ratio validation
 # - Keyboard accessibility testing
 
-name: MBTQ WCAG Compliance Check
+name:  WCAG Compliance Check
 
 on:
   push:
-    branches: [main, develop]
+    branches: [wcag-compliance-check)
   pull_request:
-    branches: [main, develop]
+    branches: [AutoTest]
   workflow_dispatch:
     inputs:
       wcag_level:
