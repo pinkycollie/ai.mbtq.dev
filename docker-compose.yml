@@ -1,22 +1,25 @@
 version: '3.8'
 
 services:
-  # Main MBTQ AI Platform application
+  # Main MBTQ Generative AI Platform Backend (Standalone Express)
   app:
     build: 
       context: .
       dockerfile: Dockerfile
-    container_name: mbtq-ai-platform
+    container_name: mbtq-generative-ai-backend
     ports:
-      - "3000:3000"
+      - "3001:3001"
     environment:
       - NODE_ENV=production
-      - NEXT_PUBLIC_SITE_URL=http://localhost:3000
+      - DATABASE_URL=postgres://postgres:password@postgres:5432/mbtq_ai_platform
+      - JWT_SECRET=your-secret-key
     env_file:
       - .env.local
     volumes:
       - ./data:/app/data
       - ./logs:/app/logs
+      - ./components:/app/components:ro
+      - ./templates:/app/templates:ro
     restart: unless-stopped
     depends_on:
       - redis
@@ -24,7 +27,7 @@ services:
     networks:
       - mbtq-network
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3001/api/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -56,22 +59,6 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./database:/docker-entrypoint-initdb.d
-    restart: unless-stopped
-    networks:
-      - mbtq-network
-
-  # Nginx reverse proxy for production
-  nginx:
-    image: nginx:alpine
-    container_name: mbtq-nginx
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./ssl:/etc/nginx/ssl:ro
-    depends_on:
-      - app
     restart: unless-stopped
     networks:
       - mbtq-network

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBTQ AI Architecture - Generative AI Platform</title>
+    <meta name="description" content="MBTQ AI Platform Architecture - Mind, Business, Tech, and Quantum perspectives for Generative AI">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --background: #f8fafc;
+            --text: #1e293b;
+            --card-bg: #ffffff;
+            --success: #22c55e;
+            --warning: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            padding: 3rem 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            color: white;
+            margin-bottom: 3rem;
+            border-radius: 0 0 2rem 2rem;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .architecture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .arch-card {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .arch-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.15);
+        }
+
+        .arch-card h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .arch-card .icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+        }
+
+        .arch-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .arch-card li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .arch-card li:last-child {
+            border-bottom: none;
+        }
+
+        .arch-card li::before {
+            content: "→";
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: var(--text);
+        }
+
+        .mbtq-framework {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .mbtq-framework {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .mbtq-item {
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            color: white;
+        }
+
+        .mbtq-item.mind { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .mbtq-item.business { background: linear-gradient(135deg, #22c55e, #16a34a); }
+        .mbtq-item.tech { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .mbtq-item.quantum { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+
+        .mbtq-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .mbtq-item p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .services-flow {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .flow-step {
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 0.5rem;
+            position: relative;
+        }
+
+        .flow-step::after {
+            content: "→";
+            position: absolute;
+            right: -1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .flow-step:last-child::after {
+            content: none;
+        }
+
+        .accessibility-section {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border: 2px solid var(--primary);
+        }
+
+        .accessibility-section h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .accessibility-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .access-feature {
+            background: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--text);
+            color: white;
+            border-radius: 2rem 2rem 0 0;
+            margin-top: 3rem;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            margin-right: 0.5rem;
+        }
+
+        .badge.new { background: var(--success); }
+        .badge.ai { background: var(--secondary); }
+        .badge.deaf { background: var(--accent); }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🧠 MBTQ AI Architecture</h1>
+        <p>A cutting-edge Generative AI Development Platform integrating Mind, Business, Tech, and Quantum perspectives for accessible AI solutions</p>
+    </header>
+
+    <div class="container">
+        <!-- MBTQ Framework -->
+        <h2 class="section-title">The MBTQ Framework</h2>
+        <div class="mbtq-framework">
+            <div class="mbtq-item mind">
+                <h3>🧠 Mind</h3>
+                <p>AI/ML Models, NLP, Computer Vision, Sign Recognition</p>
+            </div>
+            <div class="mbtq-item business">
+                <h3>💼 Business</h3>
+                <p>SaaS Solutions, API Services, Enterprise Integration</p>
+            </div>
+            <div class="mbtq-item tech">
+                <h3>⚙️ Tech</h3>
+                <p>Microservices, Docker, Kubernetes, CI/CD Pipelines</p>
+            </div>
+            <div class="mbtq-item quantum">
+                <h3>🔮 Quantum</h3>
+                <p>Future-ready Architecture, Scalable Solutions</p>
+            </div>
+        </div>
+
+        <!-- Core Architecture Components -->
+        <h2 class="section-title">Core Architecture Components</h2>
+        <div class="architecture-grid">
+            <div class="arch-card">
+                <h2><span class="icon">🤖</span> Generative AI Services</h2>
+                <ul>
+                    <li>Language Model Integration (LLM)</li>
+                    <li>Video Processing Pipeline</li>
+                    <li>Sign Language Recognition</li>
+                    <li>Text-to-Sign Generation</li>
+                    <li>ASL/BSL Translation System</li>
+                </ul>
+            </div>
+
+            <div class="arch-card">
+                <h2><span class="icon">🐳</span> Container Infrastructure</h2>
+                <ul>
+                    <li>Docker Containerization</li>
+                    <li>Kubernetes Orchestration</li>
+                    <li>Auto-scaling Microservices</li>
+                    <li>Load Balancing</li>
+                    <li>Health Monitoring</li>
+                </ul>
+            </div>
+
+            <div class="arch-card">
+                <h2><span class="icon">🔌</span> API Gateway</h2>
+                <ul>
+                    <li>RESTful API Endpoints</li>
+                    <li>WebSocket Real-time Streams</li>
+                    <li>GraphQL Support</li>
+                    <li>Rate Limiting & Caching</li>
+                    <li>Authentication & Authorization</li>
+                </ul>
+            </div>
+
+            <div class="arch-card">
+                <h2><span class="icon">📊</span> Data Layer</h2>
+                <ul>
+                    <li>PostgreSQL Database</li>
+                    <li>Redis Caching</li>
+                    <li>Object Storage (S3)</li>
+                    <li>Vector Database (Embeddings)</li>
+                    <li>Analytics Pipeline</li>
+                </ul>
+            </div>
+
+            <div class="arch-card">
+                <h2><span class="icon">🎨</span> Frontend Injection</h2>
+                <ul>
+                    <li>HTML-based Component Injection</li>
+                    <li>React/Next.js Integration</li>
+                    <li>Accessibility-first Design</li>
+                    <li>Responsive UI Components</li>
+                    <li>Theme Customization</li>
+                </ul>
+            </div>
+
+            <div class="arch-card">
+                <h2><span class="icon">🔧</span> CLI & DevTools</h2>
+                <ul>
+                    <li>Terminal CLI Launcher</li>
+                    <li>Workflow Automation</li>
+                    <li>SaaS Scaffolding Tools</li>
+                    <li>Dependency Management</li>
+                    <li>Build & Deploy Scripts</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Service Flow -->
+        <h2 class="section-title">Microservices Data Flow</h2>
+        <div class="services-flow">
+            <div class="flow-diagram">
+                <div class="flow-step">🎥 Input<br><small>Video/Image/Text</small></div>
+                <div class="flow-step">🔍 Process<br><small>AI Analysis</small></div>
+                <div class="flow-step">🧠 Generate<br><small>LLM Response</small></div>
+                <div class="flow-step">🤟 Translate<br><small>Sign Language</small></div>
+                <div class="flow-step">📤 Output<br><small>Response</small></div>
+            </div>
+        </div>
+
+        <!-- Accessibility Section -->
+        <section class="accessibility-section">
+            <h2>♿ Deaf-Centric Accessibility</h2>
+            <p style="margin-bottom: 1rem;">Built with and for the Deaf community, ensuring authentic representation and accessibility.</p>
+            <div class="accessibility-features">
+                <div class="access-feature">
+                    <h4>🤟 ASL Translation</h4>
+                    <p>Real-time American Sign Language translation and interpretation</p>
+                </div>
+                <div class="access-feature">
+                    <h4>🇬🇧 BSL Support</h4>
+                    <p>British Sign Language recognition and generation</p>
+                </div>
+                <div class="access-feature">
+                    <h4>📰 RSS Feeds</h4>
+                    <p>Curated news and research for Deaf community awareness</p>
+                </div>
+                <div class="access-feature">
+                    <h4>📹 Video Apps</h4>
+                    <p>Accessible video processing with sign language overlays</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technology Stack -->
+        <h2 class="section-title">Technology Stack</h2>
+        <div class="architecture-grid">
+            <div class="arch-card">
+                <h2><span class="icon">⚛️</span> Frontend</h2>
+                <p><span class="badge">React 19</span><span class="badge">Next.js 15</span><span class="badge ai">TypeScript</span></p>
+                <ul>
+                    <li>Server-side Rendering</li>
+                    <li>Static Site Generation</li>
+                    <li>Tailwind CSS Styling</li>
+                    <li>Radix UI Components</li>
+                </ul>
+            </div>
+
+            <div class="arch-card">
+                <h2><span class="icon">🔧</span> Backend</h2>
+                <p><span class="badge">Node.js</span><span class="badge ai">AI SDK</span><span class="badge">Zod</span></p>
+                <ul>
+                    <li>Next.js API Routes</li>
+                    <li>Groq LLM Integration</li>
+                    <li>NextAuth.js Authentication</li>
+                    <li>Neon PostgreSQL</li>
+                </ul>
+            </div>
+
+            <div class="arch-card">
+                <h2><span class="icon">🐳</span> DevOps</h2>
+                <p><span class="badge new">Docker</span><span class="badge">K8s</span><span class="badge">CI/CD</span></p>
+                <ul>
+                    <li>Multi-stage Docker Builds</li>
+                    <li>Docker Compose Orchestration</li>
+                    <li>Kubernetes Deployment</li>
+                    <li>GitHub Actions Workflows</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>🌐 <a href="https://ai.mbtq.dev">ai.mbtq.dev</a> | MBTQ AI Platform</p>
+        <p style="margin-top: 0.5rem; opacity: 0.7;">Generative AI for Accessibility • Built for the Deaf Community</p>
+    </footer>
+
+    <script>
+        // Animation on scroll
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.arch-card, .mbtq-item, .access-feature');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s, transform 0.5s';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>
