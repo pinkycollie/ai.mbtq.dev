@@ -9,6 +9,9 @@ import rssRouter from './routes/rss.js';
 import authRouter from './routes/auth.js';
 import generatorRouter from './routes/generator.js';
 import pinksyncRouter from './routes/pinksync.js';
+import deafAuthRouter from './routes/deaf-auth.js';
+import pinkflowRouter from './routes/pinkflow.js';
+import fibonroseRouter from './routes/fibonrose.js';
 
 dotenv.config();
 
@@ -34,12 +37,17 @@ app.get('/api/health', (req: Request, res: Response) => {
 
 // Auth Routes
 app.use('/api/auth', authRouter);
+app.use('/api/auth/visual', deafAuthRouter);
 
-// Code Generation Routes
+// Code Generation and A11y Routes
 app.use('/api/generate', generatorRouter);
+app.use('/api/a11y', pinkflowRouter);
 
 // PinkSync Estimator Route
 app.use('/api/pinksync', pinksyncRouter);
+
+// Fibonrose Node Management
+app.use('/api/fibonrose', fibonroseRouter);
 
 // AI Chat Route
 app.post('/api/chat', async (req: Request, res: Response) => {
