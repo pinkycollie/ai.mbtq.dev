@@ -3,12 +3,12 @@
 import React, { useRef, useState, useEffect, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { 
-  Play, 
-  Pause, 
-  Volume2, 
-  VolumeX, 
-  Maximize, 
+import {
+  Play,
+  Pause,
+  Volume2,
+  VolumeX,
+  Maximize,
   Minimize,
   ClosedCaptions,
   Hand
@@ -43,7 +43,7 @@ export interface AccessibleVideoPlayerProps {
 
 /**
  * AccessibleVideoPlayer - WCAG 2.1 AA compliant video player
- * 
+ *
  * Features:
  * - Built-in closed captioning support
  * - Sign language video overlay (PiP style)
@@ -68,7 +68,7 @@ export function AccessibleVideoPlayer({
   const videoRef = useRef<HTMLVideoElement>(null)
   const signVideoRef = useRef<HTMLVideoElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
-  
+
   const [isPlaying, setIsPlaying] = useState(false)
   const [isMuted, setIsMuted] = useState(true) // Default muted for Deaf users
   const [isFullscreen, setIsFullscreen] = useState(false)
@@ -121,7 +121,7 @@ export function AccessibleVideoPlayer({
   const toggleCaptions = useCallback(() => {
     setShowCaptions(!showCaptions)
     announce(showCaptions ? "Captions hidden" : "Captions visible")
-    
+
     // Toggle track visibility
     if (videoRef.current) {
       const tracks = videoRef.current.textTracks
@@ -343,8 +343,8 @@ export function AccessibleVideoPlayer({
                 value={currentTime}
                 onChange={handleSeek}
                 className="flex-1 h-1 bg-white/30 rounded-full appearance-none cursor-pointer
-                  [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 
-                  [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full 
+                  [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3
+                  [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full
                   [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:cursor-pointer
                   focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
                 aria-label="Video progress"
@@ -392,8 +392,8 @@ export function AccessibleVideoPlayer({
                   value={volume}
                   onChange={handleVolumeChange}
                   className="w-20 h-1 bg-white/30 rounded-full appearance-none cursor-pointer
-                    [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 
-                    [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full 
+                    [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3
+                    [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full
                     [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:cursor-pointer
                     focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
                   aria-label="Volume"
