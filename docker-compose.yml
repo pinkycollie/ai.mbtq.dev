@@ -1,72 +1,32 @@
 version: '3.8'
-
 services:
-  # Main MBTQ Generative AI Platform Backend (Standalone Express)
-  app:
-    build: 
-      context: .
-      dockerfile: Dockerfile
-    container_name: mbtq-generative-ai-backend
+  mbtq-app:
+    build: .
+    container_name: mbtq-node
     ports:
       - "3001:3001"
     environment:
       - NODE_ENV=production
       - DATABASE_URL=postgres://postgres:password@postgres:5432/mbtq_ai_platform
-      - JWT_SECRET=your-secret-key
-    env_file:
-      - .env.local
-    volumes:
-      - ./data:/app/data
-      - ./logs:/app/logs
-      - ./components:/app/components:ro
-      - ./templates:/app/templates:ro
+      - JWT_SECRET=zero-trust-mbtq-secret
+    env_file: [.env.local]
+    volumes: [./data:/app/data, ./logs:/app/logs]
     restart: unless-stopped
-    depends_on:
-      - redis
-      - postgres
-    networks:
-      - mbtq-network
+    depends_on: [postgres]
+    networks: [mbtq-net]
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3001/api/health"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3001/_health"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
-
-  # Redis for caching and session management
-  redis:
-    image: redis:7-alpine
-    container_name: mbtq-redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-    restart: unless-stopped
-    networks:
-      - mbtq-network
-    command: redis-server --appendonly yes
-
-  # PostgreSQL database
   postgres:
     image: postgres:15-alpine
-    container_name: mbtq-postgres
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_DB=mbtq_ai_platform
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./database:/docker-entrypoint-initdb.d
+    container_name: mbtq-db
+    ports: ["5432:5432"]
+    environment: [POSTGRES_DB=mbtq_ai_platform, POSTGRES_USER=postgres, POSTGRES_PASSWORD=password]
+    volumes: [postgres_data:/var/lib/postgresql/data, ./database:/docker-entrypoint-initdb.d]
     restart: unless-stopped
-    networks:
-      - mbtq-network
-
-networks:
-  mbtq-network:
-    driver: bridge
-
-volumes:
-  redis_data:
-  postgres_data:
+    networks: [mbtq-net]
+networks: { mbtq-net: { driver: bridge } }
+volumes: { postgres_data: }

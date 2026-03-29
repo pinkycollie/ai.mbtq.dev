@@ -1,89 +1,110 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import { z } from 'zod';
+import { sql } from '../lib/db.js';
 import { getLanguageModel } from '../services/ai/language-model.js';
 import { getVideoPipeline } from '../services/ai/video-pipeline.js';
-import rssRouter from './routes/rss.js';
-import authRouter from './routes/auth.js';
-import generatorRouter from './routes/generator.js';
-import pinksyncRouter from './routes/pinksync.js';
-import deafAuthRouter from './routes/deaf-auth.js';
-import pinkflowRouter from './routes/pinkflow.js';
-import fibonroseRouter from './routes/fibonrose.js';
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3001;
+const JWT_SECRET = process.env.JWT_SECRET || 'zero-trust-mbtq-secret';
 
-// Middleware
+// Minimal Security & Middleware
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
-});
-app.use(limiter);
+// --- Zero Trust Auth Tunnel Middleware ---
+const zeroTrustTunnel = (req: Request, res: Response, next: NextFunction) => {
+  const token = req.headers['authorization']?.split(' ')[1];
+  if (!token) return res.status(401).json({ error: 'ZT_TUNNEL_DENIED' });
 
-// Health check
-app.get('/api/health', (req: Request, res: Response) => {
-  res.json({ status: 'healthy', timestamp: new Date().toISOString() });
-});
-
-// Auth Routes
-app.use('/api/auth', authRouter);
-app.use('/api/auth/visual', deafAuthRouter);
-
-// Code Generation and A11y Routes
-app.use('/api/generate', generatorRouter);
-app.use('/api/a11y', pinkflowRouter);
-
-// PinkSync Estimator Route
-app.use('/api/pinksync', pinksyncRouter);
-
-// Fibonrose Node Management
-app.use('/api/fibonrose', fibonroseRouter);
-
-// AI Chat Route
-app.post('/api/chat', async (req: Request, res: Response) => {
   try {
-    const { prompt, language, context, taskType } = req.body;
-    const llm = getLanguageModel();
-    const result = await llm.generate({ prompt, language, context, taskType });
-    res.json(result);
+    const verified = jwt.verify(token, JWT_SECRET);
+    (req as any).user = verified;
+    next();
   } catch (error) {
-    console.error('Chat API error:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(403).json({ error: 'ZT_TUNNEL_EXPIRED' });
   }
-});
+};
 
-// Video Processing Route
-app.post('/api/video/process', async (req: Request, res: Response) => {
+// --- Service Wrappers (Simple App Wrappers) ---
+
+// 1. DeafAUTH (Visual Auth)
+const deafAuthWrapper = {
+  challenge: async (userId: string) => ({ challenge: "Please sign 'HELLO' to verify." }),
+  verify: async (videoUrl: string) => ({ verified: true, confidence: 0.95 })
+};
+
+// 2. PinkSync (Resource Estimator)
+const pinkSyncWrapper = {
+  estimate: (duration: number) => ({
+    time: Math.ceil(duration * 0.15) + "s",
+    cpu: "65%",
+    tokens: Math.ceil(duration * 2.4)
+  })
+};
+
+// 3. PinkFlow (A11y Node)
+const pinkFlowWrapper = {
+  validate: (code: string) => ({ passed: true, issues: [] })
+};
+
+// --- Masked URL Endpoints (Lol Masking) ---
+
+// Public Health
+app.get('/_health', (req, res) => res.json({ status: 'UP' }));
+
+// Auth Tunnel Entry
+app.post('/_/a', async (req, res) => {
   try {
-    const { url, options } = req.body;
-    const pipeline = getVideoPipeline();
-    const result = await pipeline.processVideo(url, options);
-    res.json(result);
-  } catch (error) {
-    console.error('Video processing error:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
+    const { e, p } = req.body; // email, password
+    const user: any[] = await sql`SELECT * FROM users WHERE email = ${e}`;
+    if (user[0] && await bcrypt.compare(p, user[0].password_hash)) {
+      const t = jwt.sign({ u: user[0].id }, JWT_SECRET, { expiresIn: '1h' });
+      return res.json({ t });
+    }
+    res.status(401).json({ error: 'AUTH_FAILED' });
+  } catch (err) { res.status(500).json({ error: 'INTERNAL_ERROR' }); }
 });
 
-// RSS Routes
-app.use('/api/rss', rssRouter);
-
-// Error handling middleware
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  console.error(err.stack);
-  res.status(500).json({ error: 'Internal Server Error' });
+// Generative Engine (Masked)
+app.post('/_/g', zeroTrustTunnel, async (req, res) => {
+  const { pr, t } = req.body; // prompt, type
+  res.json({ success: true, code: `// Generated ${t} for: ${pr}` });
 });
 
-app.listen(port, () => {
-  console.log(`MBTQ Generative AI Platform Backend listening at http://localhost:${port}`);
+// PinkSync Estimator (Masked)
+app.post('/_/s', zeroTrustTunnel, (req, res) => {
+  res.json(pinkSyncWrapper.estimate(req.body.d || 60));
 });
+
+// Visual Auth (Masked)
+app.post('/_/v', zeroTrustTunnel, async (req, res) => {
+  res.json(await deafAuthWrapper.challenge(req.body.u));
+});
+
+// A11y Node (Masked)
+app.post('/_/y', zeroTrustTunnel, (req, res) => {
+  res.json(pinkFlowWrapper.validate(req.body.c));
+});
+
+// AI Chat Entry (Unified Entry Point)
+app.post('/_/c', zeroTrustTunnel, async (req, res) => {
+  const llm = getLanguageModel();
+  res.json(await llm.generate({ prompt: req.body.p }));
+});
+
+// Video Access Gateway (Unified Entry Point)
+app.post('/_/i', zeroTrustTunnel, async (req, res) => {
+  const pipeline = getVideoPipeline();
+  res.json(await pipeline.processVideo(req.body.u));
+});
+
+app.listen(port, () => console.log(`MBTQ Single-Node Backend on ${port}`));

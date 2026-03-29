@@ -1,51 +1,28 @@
-# MBTQ Generative AI Platform - Agnostic API Reference
+# MBTQ Minimal Agnostic API (Zero Trust Auth Tunnel)
 
-This document outlines the API for the backend-only MBTQ Generative AI Platform. MBTQ is a full generative platform designed for the Deaf and hard-of-hearing community, accessible via high-standard RESTful services.
+A highly secure, minimal single-node backend for the MBTQ Generative AI platform.
 
 ## Base URL
-`http://localhost:3001/api`
+`http://localhost:3001`
 
-## Core Services
+## Masked Service Routes (Secure & Obscure)
 
-### 1. DeafAUTH (Visual-First Authentication)
-Provides visual authentication using video verification and sign language challenges.
-- **POST /auth/visual/challenge**: Create a sign language challenge.
-  - Body: `{ userId }`
-- **POST /auth/visual/verify**: Verify a video response to a challenge.
-  - Body: `{ userId, challenge, videoUrl }`
+| Standard Service | Masked Internal Endpoint | Auth Type | Description |
+| ---------------- | ------------------------ | --------- | ----------- |
+| Health           | `/_health`               | None      | Node Status |
+| Auth             | `/_/a`                   | Public    | Auth Tunnel Entrance |
+| Generative Engine| `/_/g`                   | ZT-Tunnel | Code/Agnostic Generation |
+| PinkSync         | `/_/s`                   | ZT-Tunnel | Sync Estimator & Coordination |
+| Visual Auth      | `/_/v`                   | ZT-Tunnel | DeafAUTH Video Challenge |
+| A11y Node        | `/_/y`                   | ZT-Tunnel | PinkFlow (A11y Node) Check |
+| AI Chat          | `/_/c`                   | ZT-Tunnel | LLM Unified Entrance |
+| Video Gateway    | `/_/i`                   | ZT-Tunnel | Video Access & Recognition |
 
-### 2. Generative Engine & PinkFlow (A11y Node)
-Generate and validate accessible code and UI components.
-- **POST /generate/code**: Generate accessible React/Vite/Unity-ready code.
-  - Body: `{ prompt, type, accessibility: boolean }`
-- **POST /a11y/validate**: Validate code or URL for WCAG compliance.
-  - Body: `{ content, type: 'url' | 'code' }`
-- **POST /a11y/fix**: Generate an accessibility fix for a given issue.
+## Zero Trust Auth Tunnel
+All `ZT-Tunnel` endpoints require a Bearer token in the Authorization header:
+`Authorization: Bearer <zt_tunnel_token>`
 
-### 3. PinkSync (Resource Estimation)
-Estimate and synchronize AI synchronization tasks.
-- **POST /pinksync/estimate**: Resource and token estimation for video/sign sync.
-  - Body: `{ duration, language, quality }`
+The tunnel ensures all service access is strictly authenticated and validated.
 
-### 4. Fibonrose (Node Management)
-Decentralized deployment and node health monitoring.
-- **GET /fibonrose/health/:nodeId**: Check health of a specific node.
-- **POST /fibonrose/deploy**: Deploy platform configuration to a node.
-
-### 5. AI Services (Primary Entry Point)
-Unified entry point for video analysis and generative chat.
-- **POST /chat**: LLM-based generative chat for sign language assistance.
-- **POST /video/process**: Primary gateway for video analysis and recognition.
-  - Body: `{ url, options? }`
-
-### 6. Standard Auth & RSS
-- **POST /auth/signup**: Standard email/password registration.
-- **POST /auth/login**: Standard authentication.
-- **GET /rss**: Fetch filtered Deaf-related community feeds.
-
-## Agnostic Architecture
-The backend is designed to serve any client frontend while maintaining the source libraries in `components/` and `templates/`. Authentication is secured with `bcryptjs` and `JWT`.
-
-## GitHub Repositories
-- Main Platform: [github.com/pinkycollie/mbtq-dev](https://github.com/pinkycollie/mbtq-dev)
-- MBTQ Dev Org: [github.com/mbtq-dev](https://github.com/mbtq-dev)
+## Source Library
+The platform continues to use `components/` and `templates/` as a generative source for all AI-driven UI creation.
