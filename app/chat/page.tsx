@@ -82,7 +82,7 @@ export default function ChatPage() {
         while (reader) {
           const { done, value } = await reader.read()
           if (done) break
-          
+
           const chunk = decoder.decode(value)
           // Parse streaming response
           const lines = chunk.split('\n')
@@ -91,8 +91,8 @@ export default function ChatPage() {
               try {
                 const text = JSON.parse(line.slice(2))
                 assistantContent += text
-                setMessages(prev => 
-                  prev.map(m => m.id === assistantMessage.id 
+                setMessages(prev =>
+                  prev.map(m => m.id === assistantMessage.id
                     ? { ...m, content: assistantContent }
                     : m
                   )
