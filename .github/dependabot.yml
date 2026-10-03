@@ -1,15 +1,41 @@
 version: 2
 updates:
-  # Client dependencies
+  # 1. Frontend (NPM)
   - package-ecosystem: "npm"
     directory: "/client"
     schedule:
-      interval: "weekly"
+      interval: "daily" # Enterprise standard prefers daily for security
     open-pull-requests-limit: 10
+    groups:
+      dependencies:
+        patterns:
+          - "*" # Groups all non-security updates into one PR
+    ignore:
+      - dependency-name: "@types/*"
+        update-types: ["version-update:semver-patch"]
 
-  # Server dependencies
+  # 2. Backend (NPM/FastAPI/Deno)
   - package-ecosystem: "npm"
     directory: "/server"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     open-pull-requests-limit: 10
+    groups:
+      server-deps:
+        patterns:
+          - "*"
+
+  # 3. Docker (Essential for GCP/Cloud Run)
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "security"
+      - "deployment"
+
+  # 4. GitHub Actions (Maintain CI/CD Security)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"

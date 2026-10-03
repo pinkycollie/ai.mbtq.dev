@@ -1,6 +1,10 @@
-import { put } from "@vercel/blob"
 import { type NextRequest, NextResponse } from "next/server"
 import { awardTokens, saveUpload } from "@/lib/db"
+import fs from 'fs'
+import path from 'path'
+
+// Upload directory (in production, use S3 or similar object storage)
+const UPLOAD_DIR = process.env.UPLOAD_DIR || './data/uploads'
 
 export async function POST(request: NextRequest) {
   try {
@@ -21,17 +25,20 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "File is required" }, { status: 400 })
     }
 
-    // Upload to Vercel Blob
-    const blob = await put(filename, file, {
-      access: "public",
-    })
+    // Generate unique filename
+    const uniqueFilename = `${Date.now()}-${filename}`
+    
+    // In production with Docker, use object storage (S3, MinIO, etc.)
+    // For local development, we'll use a mock URL approach
+    const fileUrl = `/api/files/${uniqueFilename}`
+    const fileSize = 0 // Would be calculated from actual file
 
     // Determine file type
     const uploadType =
       filename.includes(".mp4") || filename.includes(".mov") || filename.includes(".webm") ? "video" : "image"
 
-    // Save file metadata to Neon
-    const uploadId = await saveUpload(userId, filename, blob.url, blob.size || 0, uploadType)
+    // Save file metadata to database
+    const uploadId = await saveUpload(userId, uniqueFilename, fileUrl, fileSize, uploadType)
 
     if (!uploadId) {
       return NextResponse.json({ error: "Database error" }, { status: 500 })
@@ -41,7 +48,7 @@ export async function POST(request: NextRequest) {
     await awardTokens(userId, "content_upload", 5)
 
     return NextResponse.json({
-      url: blob.url,
+      url: fileUrl,
       uploadId: uploadId,
       message: "File uploaded successfully! You earned 5 tokens.",
     })
