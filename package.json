@@ -20,6 +20,15 @@
   "dependencies": {
     "@ai-sdk/groq": "latest",
     "@neondatabase/serverless": "latest",
+    "@radix-ui/react-accordion": "^1.1.2",
+    "@radix-ui/react-alert-dialog": "^1.0.5",
+    "@radix-ui/react-avatar": "^1.0.4",
+    "@radix-ui/react-checkbox": "^1.0.4",
+    "@radix-ui/react-dropdown-menu": "^2.0.6",
+    "@radix-ui/react-separator": "^1.0.3",
+    "@radix-ui/react-tabs": "^1.0.4",
+    "@types/bcryptjs": "^2.4.6",
+    "@ollama": "latest",
     "bcryptjs": "latest",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -28,9 +37,14 @@
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.454.0",
+    "next": "16.2.6",
+    "next-auth": "latest",
+    "next-themes": "^0.4.6",
     "nodemailer": "latest",
     "rss-parser": "^3.13.0",
-    "zod": "latest"
+    "tailwind-merge": "^2.5.5",
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "4.3.6"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
@@ -62,8 +76,8 @@
     "backend",
     "generative-platform"
   ],
-  "author": "Pinky <pinky@signlanguageai.com>",
-  "license": "MIT",
+  "author": "Pinky <pinkycollie@outlook.com>",
+  "license": "MIT" "Apache",
   "mocha": {
     "node-option": [
       "import=tsx"
