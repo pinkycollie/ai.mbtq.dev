@@ -1,10 +1,20 @@
 import { neon } from "@neondatabase/serverless"
 
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL environment variable is not set")
+// Allow build without DATABASE_URL (it will be required at runtime)
+const databaseUrl = process.env.DATABASE_URL || ''
+
+// Create a mock sql function for build time when DATABASE_URL is not set
+const createSql = () => {
+  if (!databaseUrl) {
+    // Throw an error if database operations are attempted without DATABASE_URL
+    return async (...args: any[]) => {
+      throw new Error("DATABASE_URL is not set. Database operations are not possible. Please set the DATABASE_URL environment variable.");
+    }
+  }
+  return neon(databaseUrl)
 }
 
-export const sql = neon(process.env.DATABASE_URL)
+export const sql = createSql()
 
 // Database helper functions
 export async function createUser(id: string, email: string, name?: string) {
