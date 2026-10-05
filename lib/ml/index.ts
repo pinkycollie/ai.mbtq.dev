@@ -1,47 +1,77 @@
 /**
- * Machine Learning Utilities for Deaf Inclusion
- * 
- * This module provides:
- * - Vision models for sign language recognition
- * - Language models for ASL/BSL syntax translation
- * - Accessibility standards generators
- * - Pre-trained model configurations for various deployment scenarios
+ * Sign Language Machine Learning Utilities
+ * Tools for sign recognition, translation, and accessibility metrics
  */
 
-// Vision Models
-export {
-  // Types
-  type SignLanguage,
-  type HandLandmark,
-  type HandPose,
-  type FacialExpression,
-  type SignRecognitionResult,
-  type VisionModelConfig,
-  type ModelMetadata,
-  // Classes
-  SignRecognitionModel,
-  MediaPipeSignRecognition,
-  TensorFlowSignRecognition,
-  // Factory
-  createSignRecognitionModel,
-  // Presets and utilities
-  VisionModelPresets,
-  VisionModelUtils,
-} from "./vision-models"
+import { z } from 'zod'
 
-// Language Models
-export {
-  // Types
-  type SignGloss,
-  type NonManualMarker,
-  type TranslationResult,
-  type GrammarRule,
-  type AccessibilityGuideline,
-  type AccessibilityReport,
-  type AccessibilityIssue,
-  // Classes
-  SignLanguageTranslator,
-  AccessibilityStandardsGenerator,
-  // Rules
-  ASLGrammarRules,
-} from "./language-models"
+// Configuration for ML models
+export const MLConfigSchema = z.object({
+  modelType: z.enum(['vision', 'language', 'hybrid']).default('vision'),
+  confidenceThreshold: z.number().min(0).max(1).default(0.8),
+  enableRealTime: z.boolean().default(true),
+  supportedLanguages: z.array(z.string()).default(['asl', 'bsl', 'lsf']),
+  optimizationLevel: z.enum(['performance', 'balanced', 'accuracy']).default('balanced'),
+})
+
+export type MLConfig = z.infer<typeof MLConfigSchema>
+
+// Recognition results
+export interface RecognitionResult {
+  sign: string
+  confidence: number
+  language: string
+  timestamp: number
+  metadata?: Record<string, any>
+}
+
+// Export specific ML modules
+export * from './vision-models.js'
+export * from './language-models.js'
+
+/**
+ * ML Service Registry
+ */
+export class MLServiceRegistry {
+  private static instance: MLServiceRegistry
+  private services: Map<string, any> = new Map()
+
+  private constructor() {}
+
+  public static getInstance(): MLServiceRegistry {
+    if (!MLServiceRegistry.instance) {
+      MLServiceRegistry.instance = new MLServiceRegistry()
+    }
+    return MLServiceRegistry.instance
+  }
+
+  public register(name: string, service: any): void {
+    this.services.set(name, service)
+  }
+
+  public get(name: string): any {
+    return this.services.get(name)
+  }
+}
+
+/**
+ * Factory function for creating sign recognition models
+ */
+export function createSignRecognitionModel(
+  language: string = 'asl',
+  mode: 'balanced' | 'fast' = 'balanced'
+) {
+  // Mock model for demonstration
+  return {
+    language,
+    mode,
+    load: async () => true,
+    recognize: async (frame: any) => ({
+      sign: 'HELLO',
+      confidence: 0.95,
+      timestamp: Date.now(),
+    }),
+  }
+}
+
+export default MLServiceRegistry

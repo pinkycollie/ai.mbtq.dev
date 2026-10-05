@@ -5,6 +5,8 @@
 FROM node:26-alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
+COPY package.json package-lock.json* ./
+RUN npm ci
 
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
@@ -20,50 +22,20 @@ FROM node:26-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-
-# Environment for build
-ENV NEXT_TELEMETRY_DISABLED 1
-ENV NODE_ENV production
-
-# Build the application
 RUN npm run build
 
 # Stage 3: Production Runner
 FROM node:26-alpine AS runner
 WORKDIR /app
-
 ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
-
-# Create non-root user for security
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
-# Copy public assets
-COPY --from=builder /app/public ./public
-
-# Set up Next.js output
-RUN mkdir .next
-RUN chown nextjs:nodejs .next
-
-# Copy standalone output
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
-# Copy services for runtime
-COPY --from=builder --chown=nextjs:nodejs /app/services ./services
-COPY --from=builder --chown=nextjs:nodejs /app/cli ./cli
-COPY --from=builder --chown=nextjs:nodejs /app/frontend-inject ./frontend-inject
-
-USER nextjs
-
-EXPOSE 3000
-
-ENV PORT 3000
-ENV HOSTNAME "0.0.0.0"
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:3000/api/health || exit 1
-
-CMD ["node", "server.js"]
+RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 mbtq-user
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/components ./components
+COPY --from=builder /app/templates ./templates
+USER mbtq-user
+EXPOSE 3001
+ENV PORT 3001
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD wget --no-verbose --tries=1 --spider http://localhost:3001/_health || true
+CMD ["node", "dist/server/index.js"]

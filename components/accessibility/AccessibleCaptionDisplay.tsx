@@ -3,8 +3,8 @@
 import React, { useState, useEffect, useCallback, useRef } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { 
-  Type, 
+import {
+  Type,
   Settings,
   ChevronUp,
   ChevronDown
@@ -83,7 +83,7 @@ function addOpacityToHexColor(color: string, opacity: number): string {
 
 /**
  * AccessibleCaptionDisplay - WCAG 2.1 AA compliant caption display
- * 
+ *
  * Features:
  * - Customizable font size, color, and background
  * - Support for speaker labels

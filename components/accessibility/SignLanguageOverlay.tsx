@@ -45,7 +45,7 @@ const MAX_DISPLAY_TEXT_LENGTH = 30
 
 /**
  * SignLanguageOverlay - Real-time sign language video overlay component
- * 
+ *
  * Features:
  * - Supports multiple sign languages (ASL, BSL, Auslan, NZSL, LSF, DGS, JSL)
  * - Integration with AWS GenASL for avatar generation
